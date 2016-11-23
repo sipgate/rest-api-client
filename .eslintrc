@@ -1,0 +1,22 @@
+{
+	"parser": "babel-eslint",
+	"extends": [
+		"airbnb-base"
+	],
+	"globals" : {
+		"__LOCAL__"    : false,
+		"__DEV__"      : false,
+		"__PROD__"     : false,
+		"__DEBUG__"    : false,
+		"__DEBUG_NEW_WINDOW__" : false,
+		"__BASENAME__" : false
+	},
+	"env": {
+		"browser": true,
+		"jest": true
+	},
+	"rules": {
+		"indent" : [2, "tab", { "SwitchCase": 1 }],
+		"no-tabs": 0
+	}
+}
