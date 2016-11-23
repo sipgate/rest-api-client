@@ -103,6 +103,7 @@ export default (http, saveJWTToken, getUserId, onLogout = () => {}) => ({
 	verifySmsCallerId: (smsId, callerId, verificationCode) => http.post(`/${getUserId()}/sms/${smsId}/callerids/${callerId}/verification`, { verificationCode }),
 	setActiveSmsCallerId: (smsId, callerId, defaultNumber) => http.put(`/${getUserId()}/sms/${smsId}/callerids/${callerId}`, { defaultNumber }),
 	sendFax: (faxlineId, recipient, filename, base64Content) => http.post('/sessions/fax', { faxlineId, recipient, filename, base64Content }),
+	resendFax: (faxlineId, faxId) => http.post('/sessions/fax/resend', { faxlineId, faxId }),
 	sendSms: (smsId, recipient, message) => http.post('/sessions/sms', { smsId, recipient, message }),
 	getBalance: () => http.get('/balance'),
 	getNotifications: () => http.get(`/${getUserId()}/notifications`),
