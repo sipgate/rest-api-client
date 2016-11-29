@@ -4,7 +4,7 @@ require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
 const defaultHeaders = (getJWTToken) => {
-	const authorization = getJWTToken()
+	const authorization = typeof getJWTToken === 'function'
 		? `Bearer ${getJWTToken()}`
 		: null;
 	const headers = {
@@ -38,19 +38,19 @@ const parseJSON = (text) => {
 	}
 };
 
-const checkLocationHeader = (apiUrl, onAuthenticationExpired) => (
+const checkLocationHeader = (apiUrl, onAuthenticationExpired, getJWTToken) => (
 	(response) => {
 		if (response.status === 403 && response.headers.get('location')) {
 			fetch(`${apiUrl}/app/links`, {
 				method: 'get',
-				headers: defaultHeaders(),
+				headers: defaultHeaders(getJWTToken),
 			})
 				.then(extractBody)
 				.then(parseJSON)
 				.then((json) => {
 					onAuthenticationExpired(
 						json.legacyTokenAuthenticateUrl,
-						response.headers.get('location'),
+						response.headers.get('location')
 					);
 				});
 		}
@@ -91,7 +91,7 @@ const get = (apiUrl, getJWTToken, onAuthenticationExpired) => (
 					return response;
 				},
 			)
-			.then(checkLocationHeader(apiUrl, onAuthenticationExpired))
+			.then(checkLocationHeader(apiUrl, onAuthenticationExpired, getJWTToken))
 			.then(checkStatus(onAuthenticationExpired))
 			.then(extractBody)
 			.then(parseJSON);
