@@ -112,6 +112,8 @@ export default (http, saveJWTToken, getUserId, onLogout = () => {}) => ({
 	createVoicemailSmsNotification: (voicemailId, number) => http.post(`/${getUserId()}/notifications/voicemail/sms`, { voicemailId, number }),
 	createFaxEmailNotification: (faxlineId, email, direction) => http.post(`/${getUserId()}/notifications/fax/email`, { faxlineId, email, direction }),
 	createFaxSmsNotification: (faxlineId, number, direction) => http.post(`/${getUserId()}/notifications/fax/sms`, { faxlineId, number, direction }),
+	createCallEmailNotification: (endpointId, email, direction, cause) => http.post(`/${getUserId()}/notifications/call/email`, { endpointId, email, direction, cause }),
+	createCallSmsNotification: (endpointId, number, direction, cause) => http.post(`/${getUserId()}/notifications/call/sms`, { endpointId, number, direction, cause }),
 	createFaxReportNotification: (faxlineId, email) => http.post(`/${getUserId()}/notifications/fax/report`, { faxlineId, email }),
 	fetchRestrictions: () => http.get('/restrictions'),
 	getSipgateIo: phonelineId => http.get(`/${getUserId()}/phonelines/${phonelineId}/sipgateio`),
