@@ -4,7 +4,8 @@ require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
 const defaultHeaders = (getJWTToken) => {
-	const authorization = typeof getJWTToken === 'function'
+	const hasJWTToken = typeof getJWTToken === 'function' && getJWTToken();
+	const authorization = hasJWTToken
 		? `Bearer ${getJWTToken()}`
 		: null;
 	const headers = {
