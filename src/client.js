@@ -119,4 +119,5 @@ export default (http, saveJWTToken, getUserId, onLogout = () => {}) => ({
 	getSipgateIo: phonelineId => http.get(`/${getUserId()}/phonelines/${phonelineId}/sipgateio`),
 	setSipgateIo: (phonelineId, sipgateIo) => http.put(`/${getUserId()}/phonelines/${phonelineId}/sipgateio`, sipgateIo),
 	getSipgateIoLog: phonelineId => http.get(`/${getUserId()}/phonelines/${phonelineId}/sipgateio/log`),
+	getUserInfo: () => http.get(`/authorization/userinfo`),
 });
