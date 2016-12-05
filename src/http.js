@@ -145,6 +145,8 @@ const put = (apiUrl, getJWTToken, onAuthenticationExpired) => (
 
 export default (apiUrl, getJWTToken, onAuthenticationExpired) => ({
 	get: get(apiUrl, getJWTToken, onAuthenticationExpired),
+	// This is a temporarily work around for fetching data without a Token
+	getUnauthenticated: get(apiUrl, () => null, () => {}),
 	del: del(apiUrl, getJWTToken, onAuthenticationExpired),
 	post: post(apiUrl, getJWTToken, onAuthenticationExpired),
 	put: put(apiUrl, getJWTToken, onAuthenticationExpired),

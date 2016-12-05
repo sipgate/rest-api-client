@@ -14,7 +14,7 @@ export default (http, saveJWTToken, getUserId, onLogout = () => {}) => ({
 				onLogout();
 			})
 	),
-	getTranslations: locale => (http.get(`/translations/${locale}`)),
+	getTranslations: locale => (http.getUnauthenticated(`/translations/${locale}`)),
 	getFaxlines: () => (http.get(`/${getUserId()}/faxlines`)),
 	getFaxlineNumbers: faxlineId => (http.get(`/${getUserId()}/faxlines/${faxlineId}/numbers`)),
 	setFaxlineAlias: (faxlineId, alias) => (http.put(`/${getUserId()}/faxlines/${faxlineId}`, { alias })),
