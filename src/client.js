@@ -105,6 +105,7 @@ export default (http, saveJWTToken, getUserId, onLogout = () => {}) => ({
 	sendFax: (faxlineId, recipient, filename, base64Content) => http.post('/sessions/fax', { faxlineId, recipient, filename, base64Content }),
 	resendFax: (faxlineId, faxId) => http.post('/sessions/fax/resend', { faxlineId, faxId }),
 	sendSms: (smsId, recipient, message) => http.post('/sessions/sms', { smsId, recipient, message }),
+	getAccount: () => http.get('/account'),
 	getBalance: () => http.get('/balance'),
 	getNotifications: () => http.get(`/${getUserId()}/notifications`),
 	deleteNotification: notificationId => http.del(`/${getUserId()}/notifications/${notificationId}`),
