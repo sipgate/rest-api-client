@@ -42,6 +42,7 @@ export default (http, saveJWTToken, getUserId, onLogout = () => {}) => ({
 		)
 	),
 	getUser: () => (http.get(`/users/${getUserId()}`)),
+	getUsers: () => (http.get(`/users`)),
 	activateGreeting: (phonelineId, voicemailId, greetingId) => (
 		http.put(
 			`/${getUserId()}/phonelines/${phonelineId}/voicemails/${voicemailId}/greetings/${greetingId}`,
