@@ -23,6 +23,8 @@ export default (http, saveJWTToken, getUserId, onLogout = () => {}) => ({
 	setFaxlineCallerId: (faxlineId, callerId) => (http.put(`/${getUserId()}/faxlines/${faxlineId}/callerid`, { value: callerId })),
 	getPhonelines: () => (http.get(`/${getUserId()}/phonelines`)),
 	setPhonelineAlias: (phonelineId, alias) => (http.put(`/${getUserId()}/phonelines/${phonelineId}`, { alias })),
+	getPhoneLineBusyOnBusy: phonelineId => (http.get(`/${getUserId()}/phonelines/${phonelineId}/busyonbusy`)),
+	setPhoneLineBusyOnBusy: (phonelineId, enabled) => (http.put(`/${getUserId()}/phonelines/${phonelineId}/busyonbusy`, { enabled })),
 	getPhonelineDevices: phonelineId => (http.get(`/${getUserId()}/phonelines/${phonelineId}/devices`)),
 	getPhonelineForwardings: phonelineId => (http.get(`/${getUserId()}/phonelines/${phonelineId}/forwardings`)),
 	getPhonelineNumbers: phonelineId => (http.get(`/${getUserId()}/phonelines/${phonelineId}/numbers`)),
