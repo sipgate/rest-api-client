@@ -2,7 +2,7 @@ import reduce from 'lodash/reduce';
 
 export default http => ({
 	getTranslations: locale =>
-		http.get(`/translations/${locale}`),
+		http.getUnauthenticated(`/translations/${locale}`),
 
 	destroySession: () =>
 		http.del('/authorization/token'),
