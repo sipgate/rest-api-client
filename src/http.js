@@ -96,7 +96,7 @@ const put = (apiUrl, token, onPromiseResolved) => (
 );
 
 export default (apiUrl, token = null, onPromiseResolved) => ({
-	getUnauthenticated: get(apiUrl, () => null, () => {}),
+	getUnauthenticated: get(apiUrl, null, result => result),
 	get: get(apiUrl, token, onPromiseResolved),
 	del: del(apiUrl, token, onPromiseResolved),
 	post: post(apiUrl, token, onPromiseResolved),
