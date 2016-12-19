@@ -97,8 +97,8 @@ export default http => ({
 	resetDevicePassword: deviceId =>
 		http.post(`/devices/${deviceId}/credentials/password`),
 
-	getDevices: () =>
-		http.get('/devices'),
+	getDevices: userId =>
+		http.get(`/${userId}/devices`),
 
 	getTacs: () =>
 		http.get('/app/tacs'),
