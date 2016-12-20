@@ -138,8 +138,8 @@ export default http => ({
 	setTariffAnnouncement: (deviceId, enabled) =>
 		http.put(`/devices/${deviceId}/tariffannouncement`, { enabled }),
 
-	getNumbers: () =>
-		http.get('/numbers'),
+	getNumbers: (userId) =>
+		http.get(`/${userId}/numbers`),
 
 	setNumberRouting: (numberId, endpointId) =>
 		http.put(`/numbers/${numberId}`, { endpointId }),
