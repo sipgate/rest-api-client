@@ -138,7 +138,7 @@ export default http => ({
 	setTariffAnnouncement: (deviceId, enabled) =>
 		http.put(`/devices/${deviceId}/tariffannouncement`, { enabled }),
 
-	getNumbers: (userId) =>
+	getNumbers: userId =>
 		http.get(`/${userId}/numbers`),
 
 	setNumberRouting: (numberId, endpointId) =>
@@ -260,4 +260,9 @@ export default http => ({
 
 	getUserInfo: () =>
 		http.get('/authorization/userinfo'),
+
+	getLocalprefix: deviceId => http.get(`/devices/${deviceId}/localprefix`),
+
+	setLocalprefix: (deviceId, localprefix, active) =>
+		http.put(`/devices/${deviceId}/localprefix`, { value: localprefix, active }),
 });
