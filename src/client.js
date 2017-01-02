@@ -7,6 +7,9 @@ export default http => ({
 	destroySession: () =>
 		http.del('/authorization/token'),
 
+	getAddresses: () =>
+		http.get('/addresses'),
+
 	getFaxlines: userId =>
 		http.get(`/${userId}/faxlines`),
 
