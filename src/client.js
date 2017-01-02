@@ -88,8 +88,8 @@ export default http => ({
 			{ forwardings },
 		),
 
-	setDnd: (deviceId, dnd) =>
-		http.put(`/devices/${deviceId}`, { dnd }),
+	setDeviceSettings: (deviceId, dnd, emergencyAddressId) =>
+		http.put(`/devices/${deviceId}`, { dnd, emergencyAddressId }),
 
 	setDeviceAlias: (deviceId, alias) =>
 		http.put(`/devices/${deviceId}/alias`, { value: alias }),
