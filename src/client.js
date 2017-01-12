@@ -278,4 +278,7 @@ export default http => ({
 	deactivateSim: (userId, deviceId) =>
 		http.del(`/${userId}/devices/${deviceId}/sim`),
 
+	getContingents: (userId, deviceId) =>
+		http.get(`/${userId}/devices/${deviceId}/contingents`),
+
 });
