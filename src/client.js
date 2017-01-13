@@ -269,9 +269,6 @@ export default http => ({
 	setLocalprefix: (deviceId, localprefix, active) =>
 		http.put(`/devices/${deviceId}/localprefix`, { value: localprefix, active }),
 
-	getSim: (userId, deviceId) =>
-		http.get(`/${userId}/devices/${deviceId}/sim`),
-
 	activateSim: (userId, deviceId, simId) =>
 		http.post(`/${userId}/devices/${deviceId}/sim`, { simId }),
 
