@@ -249,6 +249,9 @@ export default http => ({
 	createFaxReportNotification: (userId, faxlineId, email) =>
 		http.post(`/${userId}/notifications/fax/report`, { faxlineId, email }),
 
+	createSmsEmailNotification: (userId, endpointId, email) =>
+		http.post(`/${userId}/notifications/sms/email`, { endpointId, email }),
+
 	fetchRestrictions: () =>
 		http.get('/restrictions'),
 
