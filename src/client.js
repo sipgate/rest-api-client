@@ -34,6 +34,12 @@ export default http => ({
 	setPhonelineAlias: (userId, phonelineId, alias) =>
 		http.put(`/${userId}/phonelines/${phonelineId}`, { alias }),
 
+	createPhonelineDevice: (userId, phonelineId, deviceId) =>
+		http.post(`/${userId}/phonelines/${phonelineId}/devices`, { deviceId }),
+
+	deletePhonelineDevice: (userId, phonelineId, deviceId) =>
+		http.del(`/${userId}/phonelines/${phonelineId}/devices/${deviceId}`),
+
 	getPhonelineDevices: (userId, phonelineId) =>
 		http.get(`/${userId}/phonelines/${phonelineId}/devices`),
 
