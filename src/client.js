@@ -290,4 +290,6 @@ export default http => ({
 	getContingents: (userId, deviceId) =>
 		http.get(`/${userId}/devices/${deviceId}/contingents`),
 
+	orderSim: (userId, deviceId) =>
+		http.post(`/${userId}/devices/${deviceId}/sim/order`),
 });
