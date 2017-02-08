@@ -186,6 +186,9 @@ export default http => ({
 	getContacts: () =>
 		http.get('/contacts'),
 
+	getInternalContacts: () =>
+		http.get('/contacts/internal'),
+
 	deleteContact: contactId =>
 		http.del(`/contacts/${contactId}`),
 
