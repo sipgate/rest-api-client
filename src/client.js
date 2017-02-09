@@ -1,4 +1,6 @@
 import reduce from 'lodash/reduce';
+import map from 'lodash/map';
+import join from 'lodash/join';
 
 export default http => ({
 	getTranslations: locale =>
@@ -108,6 +110,9 @@ export default http => ({
 
 	getDevices: userId =>
 		http.get(`/${userId}/devices`),
+
+	createDevice: (userId, type) =>
+		http.post(`/${userId}/devices`, { type: type }),
 
 	getTacs: () =>
 		http.get('/app/tacs'),
@@ -264,8 +269,19 @@ export default http => ({
 	createSmsEmailNotification: (userId, endpointId, email) =>
 		http.post(`/${userId}/notifications/sms/email`, { endpointId, email }),
 
-	fetchRestrictions: () =>
-		http.get('/restrictions'),
+	fetchRestrictions: (userId, restrictions) => {
+		let url = '/restrictions';
+		if (typeof userId === 'string') {
+			url += `/?userId=${userId}`;
+			if (typeof restrictions === 'string' ) {
+				url += `&${restrictions}`;
+			} else if (Array.isArray(restrictions)) {
+				url += '&' + join(map(restrictions, restriction => `restriction=${restriction}`), '&');
+			}
+		}
+
+		return http.get(url);
+	},
 
 	getSipgateIo: (userId, phonelineId) =>
 		http.get(`/${userId}/phonelines/${phonelineId}/sipgateio`),
