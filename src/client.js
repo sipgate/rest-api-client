@@ -33,6 +33,9 @@ export default http => ({
 	getPhonelines: userId =>
 		http.get(`/${userId}/phonelines`),
 
+	createPhoneline: (userId, alias) =>
+		http.post(`/${userId}/phonelines`, { alias }),
+
 	setPhonelineAlias: (userId, phonelineId, alias) =>
 		http.put(`/${userId}/phonelines/${phonelineId}`, { alias }),
 
