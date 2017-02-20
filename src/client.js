@@ -314,4 +314,10 @@ export default http => ({
 
 	orderSim: (userId, deviceId, addressId) =>
 		http.post(`/${userId}/devices/${deviceId}/sim/orders`, { addressId }),
+
+	getSingleRowDisplay: deviceId =>
+		http.get(`/devices/${deviceId}/singlerowdisplay`),
+
+	setSingleRowDisplay: (deviceId, enabled) =>
+		http.put(`/devices/${deviceId}/singlerowdisplay`, { enabled }),
 });
