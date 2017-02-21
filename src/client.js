@@ -24,6 +24,9 @@ export default http => ({
 	setFaxlineTagline: (userId, faxlineId, tagline) =>
 		http.put(`/${userId}/faxlines/${faxlineId}/tagline`, { value: tagline }),
 
+	createFaxline: userId =>
+		http.post(`/${userId}/faxlines`),
+
 	getFaxlineCallerId: (userId, faxlineId) =>
 		http.get(`/${userId}/faxlines/${faxlineId}/callerid`),
 
