@@ -323,4 +323,12 @@ export default http => ({
 
 	setSingleRowDisplay: (deviceId, enabled) =>
 		http.put(`/devices/${deviceId}/singlerowdisplay`, { enabled }),
+
+	getGroups: (userId) => {
+		let url = "/groups";
+		if (typeof userId === 'string') {
+			url += `?userId=${userId}`;
+		}
+		return http.get(url);
+	}
 });
