@@ -330,5 +330,8 @@ export default http => ({
 			url += `?userId=${userId}`;
 		}
 		return http.get(url);
-	}
+	},
+
+	getGroupNumbers: (groupId) =>
+		http.get(`/groups/${groupId}/numbers`)
 });
