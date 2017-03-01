@@ -336,5 +336,11 @@ export default http => ({
 		http.get(`/groups/${groupId}/numbers`),
 
 	getGroupUsers: (groupId) =>
-		http.get(`/groups/${groupId}/users`)
+		http.get(`/groups/${groupId}/users`),
+
+	createGroupDevice: (groupId, deviceId) =>
+		http.post(`/groups/${groupId}/devices`, { deviceId }),
+
+	deleteGroupDevice: (groupId, deviceId) =>   
+		http.del(`/groups/${groupId}/devices/${deviceId}`),
 });
