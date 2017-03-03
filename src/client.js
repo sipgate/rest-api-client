@@ -343,4 +343,8 @@ export default http => ({
 
 	deleteGroupDevice: (groupId, deviceId) =>   
 		http.del(`/groups/${groupId}/devices/${deviceId}`),
+
+	getGroupVoicemail: (groupId) =>
+		http.get(`/groups/${groupId}/voicemail`),
+
 });
