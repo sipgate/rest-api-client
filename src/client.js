@@ -347,4 +347,12 @@ export default http => ({
 	getGroupVoicemail: (groupId) =>
 		http.get(`/groups/${groupId}/voicemail`),
 
+	getGroupFaxline: groupId =>
+		http.get(`/groups/${groupId}/faxlines`),
+
+	getGroupFaxlineCallerId: (groupId, faxlineId) =>
+		http.get(`/groups/${groupId}/faxlines/${faxlineId}/callerid`),
+
+	getGroupFaxlineNumbers: (groupId, faxlineId) =>
+		http.get(`/groups/${groupId}/faxlines/${faxlineId}/numbers`),
 });
