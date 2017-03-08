@@ -356,8 +356,8 @@ export default http => ({
 	},
 
 	getGroupFaxlineCallerId: (faxlineId) =>
-		http.get(`/groupsfaxlines/${faxlineId}/callerid`),
+		http.get(`/groupfaxlines/${faxlineId}/callerid`),
 
 	getGroupFaxlineNumbers: (faxlineId) =>
-		http.get(`/groupsfaxlines/${faxlineId}/numbers`),
+		http.get(`/groupfaxlines/${faxlineId}/numbers`),
 });
