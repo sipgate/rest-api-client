@@ -120,6 +120,9 @@ export default http => ({
 	createDevice: (userId, type) =>
 		http.post(`/${userId}/devices`, { type: type }),
 
+	deleteDevice: (deviceId) =>
+		http.delete(`/devices/{deviceId}`),
+
 	getTacs: () =>
 		http.get('/app/tacs'),
 
