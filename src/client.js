@@ -121,7 +121,7 @@ export default http => ({
 		http.post(`/${userId}/devices`, { type: type }),
 
 	deleteDevice: (deviceId) =>
-		http.delete(`/devices/${deviceId}`),
+		http.del(`/devices/${deviceId}`),
 
 	getTacs: () =>
 		http.get('/app/tacs'),
