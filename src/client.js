@@ -170,8 +170,8 @@ export default http => ({
 	setNumberRouting: (numberId, endpointId) =>
 		http.put(`/numbers/${numberId}`, { endpointId }),
 
-	setNumberSettings: (numberId, endpointId, releaseForMnp) =>
-		http.put(`/numbers/${numberId}`, { endpointId, releaseForMnp }),
+	setNumberSettings: (numberId, endpointId, releaseForMnp, isQuickDial) =>
+		http.put(`/numbers/${numberId}`, { endpointId, releaseForMnp , quickDial: isQuickDial }),
 
 	getPortings: () =>
 		http.get('/portings'),
