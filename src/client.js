@@ -171,7 +171,7 @@ export default http => ({
 		http.put(`/numbers/${numberId}`, { endpointId }),
 
 	setNumberSettings: (numberId, endpointId, releaseForMnp, isQuickDial) =>
-		http.put(`/numbers/${numberId}`, { endpointId, releaseForMnp , quickDial: isQuickDial }),
+		http.put(`/numbers/${numberId}`, { endpointId, releaseForMnp, quickDial: isQuickDial }),
 
 	getPortings: () =>
 		http.get('/portings'),
@@ -331,7 +331,7 @@ export default http => ({
 		http.put(`/devices/${deviceId}/singlerowdisplay`, { enabled }),
 
 	getGroups: (userId) => {
-		let url = "/groups";
+		let url = '/groups';
 		if (typeof userId === 'string') {
 			url += `?userId=${userId}`;
 		}
@@ -347,14 +347,14 @@ export default http => ({
 	createGroupDevice: (groupId, deviceId) =>
 		http.post(`/groups/${groupId}/devices`, { deviceId }),
 
-	deleteGroupDevice: (groupId, deviceId) =>   
+	deleteGroupDevice: (groupId, deviceId) =>
 		http.del(`/groups/${groupId}/devices/${deviceId}`),
 
 	getGroupVoicemail: (groupId) =>
 		http.get(`/groups/${groupId}/voicemail`),
 
 	getGroupFaxline: (userId) => {
-		let url = "/groupfaxlines";
+		let url = '/groupfaxlines';
 		if (typeof userId === 'string') {
 			url += `?userId=${userId}`;
 		}
@@ -366,4 +366,7 @@ export default http => ({
 
 	getGroupFaxlineNumbers: (faxlineId) =>
 		http.get(`/groupfaxlines/${faxlineId}/numbers`),
+
+	validateQuickDialNumbers: (quickDialNumber) =>
+		http.get(`/numbers/quickdial/validation/${quickDialNumber}`),
 });
