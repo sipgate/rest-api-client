@@ -372,4 +372,7 @@ export default http => ({
 
 	createQuickDialNumber: (userId, number) =>
 		http.post(`/numbers/quickdial`, { userId, number}),
+
+	setQuickDialNumber: (userId, numberId, number) =>
+		http.put(`/numbers/quickdial/${numberId}`, { userId, number}),
 });
