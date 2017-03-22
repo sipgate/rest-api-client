@@ -369,4 +369,7 @@ export default http => ({
 
 	validateQuickDialNumbers: (quickDialNumber) =>
 		http.get(`/numbers/quickdial/validation/${quickDialNumber}`),
+
+	createQuickDialNumber: (userId, number) =>
+		http.post(`/numbers/quickdial`, { userId, number}),
 });
