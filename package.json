@@ -1,6 +1,6 @@
 {
   "name": "sipgate-rest-api-client",
-  "version": "1.32.0",
+  "version": "1.33.0",
   "description": "Client for the sipgate rest api",
   "main": "dist/index.js",
   "scripts": {
