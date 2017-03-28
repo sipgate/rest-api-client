@@ -121,9 +121,9 @@ export default http => ({
 		http.get(`/${userId}/devices`),
 
 	createDevice: (userId, type) =>
-		http.post(`/${userId}/devices`, { type: type }),
+		http.post(`/${userId}/devices`, { type }),
 
-	deleteDevice: (deviceId) =>
+	deleteDevice: deviceId =>
 		http.del(`/devices/${deviceId}`),
 
 	getTacs: () =>
@@ -285,10 +285,10 @@ export default http => ({
 		let url = '/restrictions';
 		if (typeof userId === 'string') {
 			url += `/?userId=${userId}`;
-			if (typeof restrictions === 'string' ) {
+			if (typeof restrictions === 'string') {
 				url += `&${restrictions}`;
 			} else if (Array.isArray(restrictions)) {
-				url += '&' + join(map(restrictions, restriction => `restriction=${restriction}`), '&');
+				url += `&${join(map(restrictions, restriction => `restriction=${restriction}`), '&')}`;
 			}
 		}
 
@@ -338,10 +338,10 @@ export default http => ({
 		return http.get(url);
 	},
 
-	getGroupNumbers: (groupId) =>
+	getGroupNumbers: groupId =>
 		http.get(`/groups/${groupId}/numbers`),
 
-	getGroupUsers: (groupId) =>
+	getGroupUsers: groupId =>
 		http.get(`/groups/${groupId}/users`),
 
 	createGroupDevice: (groupId, deviceId) =>
@@ -350,7 +350,7 @@ export default http => ({
 	deleteGroupDevice: (groupId, deviceId) =>
 		http.del(`/groups/${groupId}/devices/${deviceId}`),
 
-	getGroupVoicemail: (groupId) =>
+	getGroupVoicemail: groupId =>
 		http.get(`/groups/${groupId}/voicemail`),
 
 	getGroupFaxline: (userId) => {
@@ -361,22 +361,22 @@ export default http => ({
 		return http.get(url);
 	},
 
-	getGroupFaxlineCallerId: (faxlineId) =>
+	getGroupFaxlineCallerId: faxlineId =>
 		http.get(`/groupfaxlines/${faxlineId}/callerid`),
 
-	getGroupFaxlineNumbers: (faxlineId) =>
+	getGroupFaxlineNumbers: faxlineId =>
 		http.get(`/groupfaxlines/${faxlineId}/numbers`),
 
-	validateQuickDialNumbers: (quickDialNumber) =>
+	validateQuickDialNumbers: quickDialNumber =>
 		http.get(`/numbers/quickdial/validation/${quickDialNumber}`),
 
 	createQuickDialNumber: (userId, number) =>
-		http.post(`/numbers/quickdial`, { userId, number}),
+		http.post('/numbers/quickdial', { userId, number }),
 
 	setQuickDialNumber: (userId, numberId, number) =>
-		http.put(`/numbers/quickdial/${numberId}`, { userId, number}),
+		http.put(`/numbers/quickdial/${numberId}`, { userId, number }),
 
-	deleteQuickDialNumber: (numberId) =>
-		http.del(`/numbers/quickdial/${numberId}`),
+	deleteQuickDialNumber: numberId =>
+		http.delete(`/numbers/quickdial/${numberId}`),
 
 });

@@ -5,10 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "lint": "eslint .",
+    "lintfix": "eslint --fix .",
     "compile": "npm run clean && babel src -d dist",
     "clean": "rimraf dist/*",
-    "prepublish": "npm run compile",
-    "postpublish": "npm run clean"
+    "prepublish": "npm run clean && npm run lint && npm run compile"
   },
   "keywords": [
     "sipgate",
