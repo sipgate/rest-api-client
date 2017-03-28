@@ -248,6 +248,9 @@ export default http => ({
 	getAccount: () =>
 		http.get('/account'),
 
+	verifyAccount: verificationCode =>
+		http.put('/account/verified', { verificationCode }),
+
 	getBalance: () =>
 		http.get('/balance'),
 
