@@ -377,6 +377,6 @@ export default http => ({
 		http.put(`/numbers/quickdial/${numberId}`, { userId, number}),
 
 	deleteQuickDialNumber: (numberId) =>
-		http.delete(`/numbers/quickdial/${numberId}`),
+		http.del(`/numbers/quickdial/${numberId}`),
 
 });
