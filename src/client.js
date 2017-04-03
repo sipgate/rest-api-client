@@ -27,6 +27,9 @@ export default http => ({
 	createFaxline: userId =>
 		http.post(`/${userId}/faxlines`),
 
+	deleteFaxline: (userId, faxlineId) =>
+		http.del(`/${userId}/faxlines/${faxlineId}`),
+
 	getFaxlineCallerId: (userId, faxlineId) =>
 		http.get(`/${userId}/faxlines/${faxlineId}/callerid`),
 
