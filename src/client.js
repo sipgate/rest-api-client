@@ -188,8 +188,8 @@ export default http => ({
 	setWelcome: enabled =>
 		http.put('/app/welcome', { enabled }),
 
-	initiateClickToDial: (phonelineId, caller, callee) =>
-		http.post('/sessions/calls', { phonelineId, caller, callee }),
+	initiateClickToDial: (caller, callee) =>
+		http.post('/sessions/calls', { caller, callee }),
 
 	getPhonelineBlockAnonymous: (userId, phonelineId) =>
 		http.get(`/${userId}/phonelines/${phonelineId}/blockanonymous`),
