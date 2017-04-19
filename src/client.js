@@ -87,6 +87,9 @@ export default http => ({
 	getUser: userId =>
 		http.get(`/users/${userId}`),
 
+	setDefaultDevice: (userId, deviceId) =>
+		http.put(`/users/${userId}/defaultdevice`, { deviceId }),
+
 	getUsers: () =>
 		http.get('/users/'),
 
