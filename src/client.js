@@ -126,6 +126,9 @@ export default http => ({
 	getDevices: userId =>
 		http.get(`/${userId}/devices`),
 
+	getDevice: deviceId =>
+		http.get(`/devices/${deviceId}`),
+
 	createDevice: (userId, type) =>
 		http.post(`/${userId}/devices`, { type }),
 
