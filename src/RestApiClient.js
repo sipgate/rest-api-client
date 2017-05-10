@@ -2,8 +2,12 @@ import reduce from 'lodash/reduce';
 import map from 'lodash/map';
 import join from 'lodash/join';
 
-class Client {
+export default class RestApiClient {
 	http = null;
+
+	constructor(http) {
+		this.http = http;
+	}
 
 	getTranslations = locale =>
 		this.http.getUnauthenticated(`/translations/${locale}`);
@@ -21,10 +25,10 @@ class Client {
 		this.http.get(`/${userId}/faxlines/${faxlineId}/numbers`);
 
 	setFaxlineAlias = (userId, faxlineId, alias) =>
-		this.http.put(`/${userId}/faxlines/${faxlineId}`, {alias});
+		this.http.put(`/${userId}/faxlines/${faxlineId}`, { alias });
 
 	setFaxlineTagline = (userId, faxlineId, tagline) =>
-		this.http.put(`/${userId}/faxlines/${faxlineId}/tagline`, {value: tagline});
+		this.http.put(`/${userId}/faxlines/${faxlineId}/tagline`, { value: tagline });
 
 	createFaxline = userId =>
 		this.http.post(`/${userId}/faxlines`);
@@ -37,8 +41,8 @@ class Client {
 
 	setFaxlineCallerId = (userId, faxlineId, callerId) =>
 		this.http.put(`/${userId}/faxlines/${faxlineId}/callerid`, {
-				value: callerId
-			}
+			value: callerId,
+		},
 		);
 
 	getPhonelines = userId =>
@@ -51,10 +55,10 @@ class Client {
 		this.http.del(`/${userId}/phonelines/${phonelineId}`);
 
 	setPhonelineAlias = (userId, phonelineId, alias) =>
-		this.http.put(`/${userId}/phonelines/${phonelineId}`, {alias});
+		this.http.put(`/${userId}/phonelines/${phonelineId}`, { alias });
 
 	createPhonelineDevice = (userId, phonelineId, deviceId) =>
-		this.http.post(`/${userId}/phonelines/${phonelineId}/devices`, {deviceId});
+		this.http.post(`/${userId}/phonelines/${phonelineId}/devices`, { deviceId });
 
 	deletePhonelineDevice = (userId, phonelineId, deviceId) =>
 		this.http.del(`/${userId}/phonelines/${phonelineId}/devices/${deviceId}`);
@@ -73,11 +77,15 @@ class Client {
 
 	createPhonelineParallelforwarding = (userId, phonelineId, alias, destination) =>
 		this.http.post(`/${userId}/phonelines/${phonelineId}/parallelforwardings`, {
-			alias, destination, active: true
+			alias, destination, active: true,
 		});
 
-	setPhonelineParallelforwarding = (userId, phonelineId, parallelforwardingId, parallelforwarding) =>
-		this.http.put(`/${userId}/phonelines/${phonelineId}/parallelforwardings/${parallelforwardingId}`, parallelforwarding);
+	setPhonelineParallelforwarding =
+		(userId, phonelineId, parallelforwardingId, parallelforwarding) =>
+		this.http.put(
+			`/${userId}/phonelines/${phonelineId}/parallelforwardings/${parallelforwardingId}`,
+			parallelforwarding,
+		);
 
 	getPhonelineVoicemails = (userId, phonelineId) =>
 		this.http.get(`/${userId}/phonelines/${phonelineId}/voicemails`);
@@ -88,14 +96,14 @@ class Client {
 	setVoicemail = (userId, phonelineId, voicemailId, active, timeout, transcription) =>
 		this.http.put(
 			`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}`,
-			{timeout, active, transcription},
+			{ timeout, active, transcription },
 		);
 
 	getUser = userId =>
 		this.http.get(`/users/${userId}`);
 
 	setDefaultDevice = (userId, deviceId) =>
-		this.http.put(`/users/${userId}/defaultdevice`, {deviceId});
+		this.http.put(`/users/${userId}/defaultdevice`, { deviceId });
 
 	getUsers = () =>
 		this.http.get('/users/');
@@ -104,14 +112,14 @@ class Client {
 		this.http.put(
 			`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}/greetings/${greetingId}`,
 			{
-				active: true
+				active: true,
 			},
 		);
 
 	createGreeting = (userId, phonelineId, voicemailId, filename, base64Content) =>
 		this.http.post(
 			`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}/greetings`,
-			{filename, base64Content},
+			{ filename, base64Content },
 		);
 
 	deleteGreeting = (userId, phonelineId, voicemailId, greetingId) =>
@@ -120,14 +128,14 @@ class Client {
 	changeForwarding = (userId, phonelineId, forwardings) =>
 		this.http.put(
 			`/${userId}/phonelines/${phonelineId}/forwardings`,
-			{forwardings},
+			{ forwardings },
 		);
 
 	setDeviceSettings = (deviceId, dnd, emergencyAddressId) =>
-		this.http.put(`/devices/${deviceId}`, {dnd, emergencyAddressId});
+		this.http.put(`/devices/${deviceId}`, { dnd, emergencyAddressId });
 
 	setDeviceAlias = (deviceId, alias) =>
-		this.http.put(`/devices/${deviceId}/alias`, {value: alias});
+		this.http.put(`/devices/${deviceId}/alias`, { value: alias });
 
 	resetDevicePassword = deviceId =>
 		this.http.post(`/devices/${deviceId}/credentials/password`);
@@ -139,7 +147,7 @@ class Client {
 		this.http.get(`/devices/${deviceId}`);
 
 	createDevice = (userId, type) =>
-		this.http.post(`/${userId}/devices`, {type});
+		this.http.post(`/${userId}/devices`, { type });
 
 	deleteDevice = deviceId =>
 		this.http.del(`/devices/${deviceId}`);
@@ -149,8 +157,8 @@ class Client {
 
 	acceptTacs = () =>
 		this.http.put('/app/tacs', {
-				accepted: true
-			}
+			accepted: true,
+		},
 		);
 
 	fetchLinks = () =>
@@ -178,24 +186,24 @@ class Client {
 
 	setCallerId = (deviceId, callerId) =>
 		this.http.put(`/devices/${deviceId}/callerid`, {
-			value: callerId
+			value: callerId,
 		});
 
 	getTariffAnnouncement = deviceId =>
 		this.http.get(`/devices/${deviceId}/tariffannouncement`);
 
 	setTariffAnnouncement = (deviceId, enabled) =>
-		this.http.put(`/devices/${deviceId}/tariffannouncement`, {enabled});
+		this.http.put(`/devices/${deviceId}/tariffannouncement`, { enabled });
 
 	getNumbers = userId =>
 		this.http.get(`/${userId}/numbers`);
 
 	setNumberRouting = (numberId, endpointId) =>
-		this.http.put(`/numbers/${numberId}`, {endpointId});
+		this.http.put(`/numbers/${numberId}`, { endpointId });
 
 	setNumberSettings = (numberId, endpointId, releaseForMnp, isQuickDial) =>
 		this.http.put(`/numbers/${numberId}`, {
-			endpointId, releaseForMnp, quickDial: isQuickDial
+			endpointId, releaseForMnp, quickDial: isQuickDial,
 		});
 
 	getPortings = () =>
@@ -208,22 +216,22 @@ class Client {
 		this.http.get('/app/welcome');
 
 	setWelcome = enabled =>
-		this.http.put('/app/welcome', {enabled});
+		this.http.put('/app/welcome', { enabled });
 
 	initiateClickToDial = (caller, callee) =>
-		this.http.post('/sessions/calls', {caller, callee});
+		this.http.post('/sessions/calls', { caller, callee });
 
 	getPhonelineBlockAnonymous = (userId, phonelineId) =>
 		this.http.get(`/${userId}/phonelines/${phonelineId}/blockanonymous`);
 
 	setPhonelineBlockAnonymous = (userId, phonelineId, enabled, target) =>
-		this.http.put(`/${userId}/phonelines/${phonelineId}/blockanonymous`, {enabled, target});
+		this.http.put(`/${userId}/phonelines/${phonelineId}/blockanonymous`, { enabled, target });
 
 	getPhonelineBusyOnBusy = (userId, phonelineId) =>
 		(this.http.get(`/${userId}/phonelines/${phonelineId}/busyonbusy`));
 
 	setPhonelineBusyOnBusy = (userId, phonelineId, enabled) =>
-		(this.http.put(`/${userId}/phonelines/${phonelineId}/busyonbusy`, {enabled}));
+		(this.http.put(`/${userId}/phonelines/${phonelineId}/busyonbusy`, { enabled }));
 
 	getContacts = () =>
 		this.http.get('/contacts');
@@ -238,43 +246,43 @@ class Client {
 		this.http.del('/contacts');
 
 	importContactsFromCSV = base64Content =>
-		this.http.post('/contacts/import/csv', {base64Content});
+		this.http.post('/contacts/import/csv', { base64Content });
 
 	importContactsFromGoogle = token =>
-		this.http.post('/contacts/import/google', {token});
+		this.http.post('/contacts/import/google', { token });
 
 	fetchSms = userId =>
 		this.http.get(`/${userId}/sms`);
 
 	setSmsAlias = (userId, smsId, alias) =>
-		this.http.put(`/${userId}/sms/${smsId}`, {alias});
+		this.http.put(`/${userId}/sms/${smsId}`, { alias });
 
 	fetchSmsCallerIds = (userId, smsId) =>
 		this.http.get(`/${userId}/sms/${smsId}/callerids`);
 
 	createSmsCallerId = (userId, smsId, phonenumber) =>
-		this.http.post(`/${userId}/sms/${smsId}/callerids`, {phonenumber});
+		this.http.post(`/${userId}/sms/${smsId}/callerids`, { phonenumber });
 
 	verifySmsCallerId = (userId, smsId, callerId, verificationCode) =>
-		this.http.post(`/${userId}/sms/${smsId}/callerids/${callerId}/verification`, {verificationCode});
+		this.http.post(`/${userId}/sms/${smsId}/callerids/${callerId}/verification`, { verificationCode });
 
 	setActiveSmsCallerId = (userId, smsId, callerId, defaultNumber) =>
-		this.http.put(`/${userId}/sms/${smsId}/callerids/${callerId}`, {defaultNumber});
+		this.http.put(`/${userId}/sms/${smsId}/callerids/${callerId}`, { defaultNumber });
 
 	sendFax = (faxlineId, recipient, filename, base64Content) =>
-		this.http.post('/sessions/fax', {faxlineId, recipient, filename, base64Content});
+		this.http.post('/sessions/fax', { faxlineId, recipient, filename, base64Content });
 
 	resendFax = (faxlineId, faxId) =>
-		this.http.post('/sessions/fax/resend', {faxlineId, faxId});
+		this.http.post('/sessions/fax/resend', { faxlineId, faxId });
 
 	sendSms = (smsId, recipient, message) =>
-		this.http.post('/sessions/sms', {smsId, recipient, message});
+		this.http.post('/sessions/sms', { smsId, recipient, message });
 
 	getAccount = () =>
 		this.http.get('/account');
 
 	verifyAccount = verificationCode =>
-		this.http.put('/account/verified', {verificationCode});
+		this.http.put('/account/verified', { verificationCode });
 
 	getBalance = () =>
 		this.http.get('/balance');
@@ -286,28 +294,28 @@ class Client {
 		this.http.del(`/${userId}/notifications/${notificationId}`);
 
 	createVoicemailEmailNotification = (userId, voicemailId, email) =>
-		this.http.post(`/${userId}/notifications/voicemail/email`, {voicemailId, email});
+		this.http.post(`/${userId}/notifications/voicemail/email`, { voicemailId, email });
 
 	createVoicemailSmsNotification = (userId, voicemailId, number) =>
-		this.http.post(`/${userId}/notifications/voicemail/sms`, {voicemailId, number});
+		this.http.post(`/${userId}/notifications/voicemail/sms`, { voicemailId, number });
 
 	createFaxEmailNotification = (userId, faxlineId, email, direction) =>
-		this.http.post(`/${userId}/notifications/fax/email`, {faxlineId, email, direction});
+		this.http.post(`/${userId}/notifications/fax/email`, { faxlineId, email, direction });
 
 	createFaxSmsNotification = (userId, faxlineId, number, direction) =>
-		this.http.post(`/${userId}/notifications/fax/sms`, {faxlineId, number, direction});
+		this.http.post(`/${userId}/notifications/fax/sms`, { faxlineId, number, direction });
 
 	createCallEmailNotification = (userId, endpointId, email, direction, cause) =>
-		this.http.post(`/${userId}/notifications/call/email`, {endpointId, email, direction, cause});
+		this.http.post(`/${userId}/notifications/call/email`, { endpointId, email, direction, cause });
 
 	createCallSmsNotification = (userId, endpointId, number, direction, cause) =>
-		this.http.post(`/${userId}/notifications/call/sms`, {endpointId, number, direction, cause});
+		this.http.post(`/${userId}/notifications/call/sms`, { endpointId, number, direction, cause });
 
 	createFaxReportNotification = (userId, faxlineId, email) =>
-		this.http.post(`/${userId}/notifications/fax/report`, {faxlineId, email});
+		this.http.post(`/${userId}/notifications/fax/report`, { faxlineId, email });
 
 	createSmsEmailNotification = (userId, endpointId, email) =>
-		this.http.post(`/${userId}/notifications/sms/email`, {endpointId, email});
+		this.http.post(`/${userId}/notifications/sms/email`, { endpointId, email });
 
 	fetchRestrictions = (userId, restrictions) => {
 		let url = '/restrictions';
@@ -339,11 +347,11 @@ class Client {
 
 	setLocalprefix = (deviceId, localprefix, active) =>
 		this.http.put(`/devices/${deviceId}/localprefix`, {
-			value: localprefix, active
+			value: localprefix, active,
 		});
 
 	activateSim = (userId, deviceId, simId) =>
-		this.http.post(`/${userId}/devices/${deviceId}/sim`, {simId});
+		this.http.post(`/${userId}/devices/${deviceId}/sim`, { simId });
 
 	deactivateSim = (userId, deviceId) =>
 		this.http.del(`/${userId}/devices/${deviceId}/sim`);
@@ -352,13 +360,13 @@ class Client {
 		this.http.get(`/${userId}/devices/${deviceId}/contingents`);
 
 	orderSim = (userId, deviceId, addressId) =>
-		this.http.post(`/${userId}/devices/${deviceId}/sim/orders`, {addressId});
+		this.http.post(`/${userId}/devices/${deviceId}/sim/orders`, { addressId });
 
 	getSingleRowDisplay = deviceId =>
 		this.http.get(`/devices/${deviceId}/singlerowdisplay`);
 
 	setSingleRowDisplay = (deviceId, enabled) =>
-		this.http.put(`/devices/${deviceId}/singlerowdisplay`, {enabled});
+		this.http.put(`/devices/${deviceId}/singlerowdisplay`, { enabled });
 
 	getGroups = (userId) => {
 		let url = '/groups';
@@ -375,7 +383,7 @@ class Client {
 		this.http.get(`/groups/${groupId}/users`);
 
 	createGroupDevice = (groupId, deviceId) =>
-		this.http.post(`/groups/${groupId}/devices`, {deviceId});
+		this.http.post(`/groups/${groupId}/devices`, { deviceId });
 
 	deleteGroupDevice = (groupId, deviceId) =>
 		this.http.del(`/groups/${groupId}/devices/${deviceId}`);
@@ -401,19 +409,12 @@ class Client {
 		this.http.get(`/numbers/quickdial/validation/${quickDialNumber}`);
 
 	createQuickDialNumber = (userId, number) =>
-		this.http.post('/numbers/quickdial', {userId, number});
+		this.http.post('/numbers/quickdial', { userId, number });
 
 	setQuickDialNumber = (userId, numberId, number) =>
-		this.http.put(`/numbers/quickdial/${numberId}`, {userId, number});
+		this.http.put(`/numbers/quickdial/${numberId}`, { userId, number });
 
 	deleteQuickDialNumber = numberId =>
 		this.http.del(`/numbers/quickdial/${numberId}`);
 }
 
-export default (http) => {
-	const client = new Client();
-	client.http = http;
-	return client;
-};
-
-export const httpClient = Client;
