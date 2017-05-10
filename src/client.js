@@ -2,298 +2,314 @@ import reduce from 'lodash/reduce';
 import map from 'lodash/map';
 import join from 'lodash/join';
 
-export default http => ({
-	getTranslations: locale =>
-		http.getUnauthenticated(`/translations/${locale}`),
+class Client {
+	http = null;
 
-	destroySession: () =>
-		http.del('/authorization/token'),
+	getTranslations = locale =>
+		this.http.getUnauthenticated(`/translations/${locale}`);
 
-	getAddresses: () =>
-		http.get('/addresses'),
+	destroySession = () =>
+		this.http.del('/authorization/token');
 
-	getFaxlines: userId =>
-		http.get(`/${userId}/faxlines`),
+	getAddresses = () =>
+		this.http.get('/addresses');
 
-	getFaxlineNumbers: (userId, faxlineId) =>
-		http.get(`/${userId}/faxlines/${faxlineId}/numbers`),
+	getFaxlines = userId =>
+		this.http.get(`/${userId}/faxlines`);
 
-	setFaxlineAlias: (userId, faxlineId, alias) =>
-		http.put(`/${userId}/faxlines/${faxlineId}`, { alias }),
+	getFaxlineNumbers = (userId, faxlineId) =>
+		this.http.get(`/${userId}/faxlines/${faxlineId}/numbers`);
 
-	setFaxlineTagline: (userId, faxlineId, tagline) =>
-		http.put(`/${userId}/faxlines/${faxlineId}/tagline`, { value: tagline }),
+	setFaxlineAlias = (userId, faxlineId, alias) =>
+		this.http.put(`/${userId}/faxlines/${faxlineId}`, {alias});
 
-	createFaxline: userId =>
-		http.post(`/${userId}/faxlines`),
+	setFaxlineTagline = (userId, faxlineId, tagline) =>
+		this.http.put(`/${userId}/faxlines/${faxlineId}/tagline`, {value: tagline});
 
-	deleteFaxline: (userId, faxlineId) =>
-		http.del(`/${userId}/faxlines/${faxlineId}`),
+	createFaxline = userId =>
+		this.http.post(`/${userId}/faxlines`);
 
-	getFaxlineCallerId: (userId, faxlineId) =>
-		http.get(`/${userId}/faxlines/${faxlineId}/callerid`),
+	deleteFaxline = (userId, faxlineId) =>
+		this.http.del(`/${userId}/faxlines/${faxlineId}`);
 
-	setFaxlineCallerId: (userId, faxlineId, callerId) =>
-		http.put(`/${userId}/faxlines/${faxlineId}/callerid`, { value: callerId }),
+	getFaxlineCallerId = (userId, faxlineId) =>
+		this.http.get(`/${userId}/faxlines/${faxlineId}/callerid`);
 
-	getPhonelines: userId =>
-		http.get(`/${userId}/phonelines`),
+	setFaxlineCallerId = (userId, faxlineId, callerId) =>
+		this.http.put(`/${userId}/faxlines/${faxlineId}/callerid`, {
+				value: callerId
+			}
+		);
 
-	createPhoneline: userId =>
-		http.post(`/${userId}/phonelines`),
+	getPhonelines = userId =>
+		this.http.get(`/${userId}/phonelines`);
 
-	deletePhoneline: (userId, phonelineId) =>
-		http.del(`/${userId}/phonelines/${phonelineId}`),
+	createPhoneline = userId =>
+		this.http.post(`/${userId}/phonelines`);
 
-	setPhonelineAlias: (userId, phonelineId, alias) =>
-		http.put(`/${userId}/phonelines/${phonelineId}`, { alias }),
+	deletePhoneline = (userId, phonelineId) =>
+		this.http.del(`/${userId}/phonelines/${phonelineId}`);
 
-	createPhonelineDevice: (userId, phonelineId, deviceId) =>
-		http.post(`/${userId}/phonelines/${phonelineId}/devices`, { deviceId }),
+	setPhonelineAlias = (userId, phonelineId, alias) =>
+		this.http.put(`/${userId}/phonelines/${phonelineId}`, {alias});
 
-	deletePhonelineDevice: (userId, phonelineId, deviceId) =>
-		http.del(`/${userId}/phonelines/${phonelineId}/devices/${deviceId}`),
+	createPhonelineDevice = (userId, phonelineId, deviceId) =>
+		this.http.post(`/${userId}/phonelines/${phonelineId}/devices`, {deviceId});
 
-	getPhonelineDevices: (userId, phonelineId) =>
-		http.get(`/${userId}/phonelines/${phonelineId}/devices`),
+	deletePhonelineDevice = (userId, phonelineId, deviceId) =>
+		this.http.del(`/${userId}/phonelines/${phonelineId}/devices/${deviceId}`);
 
-	getPhonelineForwardings: (userId, phonelineId) =>
-		http.get(`/${userId}/phonelines/${phonelineId}/forwardings`),
+	getPhonelineDevices = (userId, phonelineId) =>
+		this.http.get(`/${userId}/phonelines/${phonelineId}/devices`);
 
-	getPhonelineNumbers: (userId, phonelineId) =>
-		http.get(`/${userId}/phonelines/${phonelineId}/numbers`),
+	getPhonelineForwardings = (userId, phonelineId) =>
+		this.http.get(`/${userId}/phonelines/${phonelineId}/forwardings`);
 
-	getPhonelineParallelforwardings: (userId, phonelineId) =>
-		http.get(`/${userId}/phonelines/${phonelineId}/parallelforwardings`),
+	getPhonelineNumbers = (userId, phonelineId) =>
+		this.http.get(`/${userId}/phonelines/${phonelineId}/numbers`);
 
-	createPhonelineParallelforwarding: (userId, phonelineId, alias, destination) =>
-		http.post(`/${userId}/phonelines/${phonelineId}/parallelforwardings`, { alias, destination, active: true }),
+	getPhonelineParallelforwardings = (userId, phonelineId) =>
+		this.http.get(`/${userId}/phonelines/${phonelineId}/parallelforwardings`);
 
-	setPhonelineParallelforwarding: (userId, phonelineId, parallelforwardingId, parallelforwarding) =>
-		http.put(`/${userId}/phonelines/${phonelineId}/parallelforwardings/${parallelforwardingId}`, parallelforwarding),
+	createPhonelineParallelforwarding = (userId, phonelineId, alias, destination) =>
+		this.http.post(`/${userId}/phonelines/${phonelineId}/parallelforwardings`, {
+			alias, destination, active: true
+		});
 
-	getPhonelineVoicemails: (userId, phonelineId) =>
-		http.get(`/${userId}/phonelines/${phonelineId}/voicemails`),
+	setPhonelineParallelforwarding = (userId, phonelineId, parallelforwardingId, parallelforwarding) =>
+		this.http.put(`/${userId}/phonelines/${phonelineId}/parallelforwardings/${parallelforwardingId}`, parallelforwarding);
 
-	getPhonelineVoicemailGreetings: (userId, phonelineId, voicemailId) =>
-		http.get(`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}/greetings`),
+	getPhonelineVoicemails = (userId, phonelineId) =>
+		this.http.get(`/${userId}/phonelines/${phonelineId}/voicemails`);
 
-	setVoicemail: (userId, phonelineId, voicemailId, active, timeout, transcription) =>
-		http.put(
+	getPhonelineVoicemailGreetings = (userId, phonelineId, voicemailId) =>
+		this.http.get(`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}/greetings`);
+
+	setVoicemail = (userId, phonelineId, voicemailId, active, timeout, transcription) =>
+		this.http.put(
 			`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}`,
-			{ timeout, active, transcription },
-		),
+			{timeout, active, transcription},
+		);
 
-	getUser: userId =>
-		http.get(`/users/${userId}`),
+	getUser = userId =>
+		this.http.get(`/users/${userId}`);
 
-	setDefaultDevice: (userId, deviceId) =>
-		http.put(`/users/${userId}/defaultdevice`, { deviceId }),
+	setDefaultDevice = (userId, deviceId) =>
+		this.http.put(`/users/${userId}/defaultdevice`, {deviceId});
 
-	getUsers: () =>
-		http.get('/users/'),
+	getUsers = () =>
+		this.http.get('/users/');
 
-	activateGreeting: (userId, phonelineId, voicemailId, greetingId) =>
-		http.put(
+	activateGreeting = (userId, phonelineId, voicemailId, greetingId) =>
+		this.http.put(
 			`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}/greetings/${greetingId}`,
-			{ active: true },
-		),
+			{
+				active: true
+			},
+		);
 
-	createGreeting: (userId, phonelineId, voicemailId, filename, base64Content) =>
-		http.post(
+	createGreeting = (userId, phonelineId, voicemailId, filename, base64Content) =>
+		this.http.post(
 			`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}/greetings`,
-			{ filename, base64Content },
-		),
+			{filename, base64Content},
+		);
 
-	deleteGreeting: (userId, phonelineId, voicemailId, greetingId) =>
-		http.del(`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}/greetings/${greetingId}`),
+	deleteGreeting = (userId, phonelineId, voicemailId, greetingId) =>
+		this.http.del(`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}/greetings/${greetingId}`);
 
-	changeForwarding: (userId, phonelineId, forwardings) =>
-		http.put(
+	changeForwarding = (userId, phonelineId, forwardings) =>
+		this.http.put(
 			`/${userId}/phonelines/${phonelineId}/forwardings`,
-			{ forwardings },
-		),
+			{forwardings},
+		);
 
-	setDeviceSettings: (deviceId, dnd, emergencyAddressId) =>
-		http.put(`/devices/${deviceId}`, { dnd, emergencyAddressId }),
+	setDeviceSettings = (deviceId, dnd, emergencyAddressId) =>
+		this.http.put(`/devices/${deviceId}`, {dnd, emergencyAddressId});
 
-	setDeviceAlias: (deviceId, alias) =>
-		http.put(`/devices/${deviceId}/alias`, { value: alias }),
+	setDeviceAlias = (deviceId, alias) =>
+		this.http.put(`/devices/${deviceId}/alias`, {value: alias});
 
-	resetDevicePassword: deviceId =>
-		http.post(`/devices/${deviceId}/credentials/password`),
+	resetDevicePassword = deviceId =>
+		this.http.post(`/devices/${deviceId}/credentials/password`);
 
-	getDevices: userId =>
-		http.get(`/${userId}/devices`),
+	getDevices = userId =>
+		this.http.get(`/${userId}/devices`);
 
-	getDevice: deviceId =>
-		http.get(`/devices/${deviceId}`),
+	getDevice = deviceId =>
+		this.http.get(`/devices/${deviceId}`);
 
-	createDevice: (userId, type) =>
-		http.post(`/${userId}/devices`, { type }),
+	createDevice = (userId, type) =>
+		this.http.post(`/${userId}/devices`, {type});
 
-	deleteDevice: deviceId =>
-		http.del(`/devices/${deviceId}`),
+	deleteDevice = deviceId =>
+		this.http.del(`/devices/${deviceId}`);
 
-	getTacs: () =>
-		http.get('/app/tacs'),
+	getTacs = () =>
+		this.http.get('/app/tacs');
 
-	acceptTacs: () =>
-		http.put('/app/tacs', { accepted: true }),
+	acceptTacs = () =>
+		this.http.put('/app/tacs', {
+				accepted: true
+			}
+		);
 
-	fetchLinks: () =>
-		http.get('/app/links'),
+	fetchLinks = () =>
+		this.http.get('/app/links');
 
-	getHistory: (userId, phonelineId, types, directions, limit) => {
+	getHistory = (userId, phonelineId, types, directions, limit) => {
 		let url = `/${userId}/history?phonelineId=${phonelineId}&limit=${limit}`;
 		url += reduce(types, (joined, type) => `${joined}&types=${type}`, '');
 		url += reduce(directions, (joined, direction) => `${joined}&directions=${direction}`, '');
 
-		return http.get(url);
-	},
+		return this.http.get(url);
+	};
 
-	deleteHistoryEntry: (userId, id) =>
-		http.del(`/${userId}/history/${id}`),
+	deleteHistoryEntry = (userId, id) =>
+		this.http.del(`/${userId}/history/${id}`);
 
-	getEvents: () =>
-		http.get('/app/events'),
+	getEvents = () =>
+		this.http.get('/app/events');
 
-	deleteEvent: id =>
-		http.del(`/app/events/${id}`),
+	deleteEvent = id =>
+		this.http.del(`/app/events/${id}`);
 
-	getCallerId: deviceId =>
-		http.get(`/devices/${deviceId}/callerid`),
+	getCallerId = deviceId =>
+		this.http.get(`/devices/${deviceId}/callerid`);
 
-	setCallerId: (deviceId, callerId) =>
-		http.put(`/devices/${deviceId}/callerid`, { value: callerId }),
+	setCallerId = (deviceId, callerId) =>
+		this.http.put(`/devices/${deviceId}/callerid`, {
+			value: callerId
+		});
 
-	getTariffAnnouncement: deviceId =>
-		http.get(`/devices/${deviceId}/tariffannouncement`),
+	getTariffAnnouncement = deviceId =>
+		this.http.get(`/devices/${deviceId}/tariffannouncement`);
 
-	setTariffAnnouncement: (deviceId, enabled) =>
-		http.put(`/devices/${deviceId}/tariffannouncement`, { enabled }),
+	setTariffAnnouncement = (deviceId, enabled) =>
+		this.http.put(`/devices/${deviceId}/tariffannouncement`, {enabled});
 
-	getNumbers: userId =>
-		http.get(`/${userId}/numbers`),
+	getNumbers = userId =>
+		this.http.get(`/${userId}/numbers`);
 
-	setNumberRouting: (numberId, endpointId) =>
-		http.put(`/numbers/${numberId}`, { endpointId }),
+	setNumberRouting = (numberId, endpointId) =>
+		this.http.put(`/numbers/${numberId}`, {endpointId});
 
-	setNumberSettings: (numberId, endpointId, releaseForMnp, isQuickDial) =>
-		http.put(`/numbers/${numberId}`, { endpointId, releaseForMnp, quickDial: isQuickDial }),
+	setNumberSettings = (numberId, endpointId, releaseForMnp, isQuickDial) =>
+		this.http.put(`/numbers/${numberId}`, {
+			endpointId, releaseForMnp, quickDial: isQuickDial
+		});
 
-	getPortings: () =>
-		http.get('/portings'),
+	getPortings = () =>
+		this.http.get('/portings');
 
-	revokePorting: portingId =>
-		http.del(`/portings/${portingId}`),
+	revokePorting = portingId =>
+		this.http.del(`/portings/${portingId}`);
 
-	getWelcome: () =>
-		http.get('/app/welcome'),
+	getWelcome = () =>
+		this.http.get('/app/welcome');
 
-	setWelcome: enabled =>
-		http.put('/app/welcome', { enabled }),
+	setWelcome = enabled =>
+		this.http.put('/app/welcome', {enabled});
 
-	initiateClickToDial: (caller, callee) =>
-		http.post('/sessions/calls', { caller, callee }),
+	initiateClickToDial = (caller, callee) =>
+		this.http.post('/sessions/calls', {caller, callee});
 
-	getPhonelineBlockAnonymous: (userId, phonelineId) =>
-		http.get(`/${userId}/phonelines/${phonelineId}/blockanonymous`),
+	getPhonelineBlockAnonymous = (userId, phonelineId) =>
+		this.http.get(`/${userId}/phonelines/${phonelineId}/blockanonymous`);
 
-	setPhonelineBlockAnonymous: (userId, phonelineId, enabled, target) =>
-		http.put(`/${userId}/phonelines/${phonelineId}/blockanonymous`, { enabled, target }),
+	setPhonelineBlockAnonymous = (userId, phonelineId, enabled, target) =>
+		this.http.put(`/${userId}/phonelines/${phonelineId}/blockanonymous`, {enabled, target});
 
-	getPhonelineBusyOnBusy: (userId, phonelineId) =>
-		(http.get(`/${userId}/phonelines/${phonelineId}/busyonbusy`)),
+	getPhonelineBusyOnBusy = (userId, phonelineId) =>
+		(this.http.get(`/${userId}/phonelines/${phonelineId}/busyonbusy`));
 
-	setPhonelineBusyOnBusy: (userId, phonelineId, enabled) =>
-		(http.put(`/${userId}/phonelines/${phonelineId}/busyonbusy`, { enabled })),
+	setPhonelineBusyOnBusy = (userId, phonelineId, enabled) =>
+		(this.http.put(`/${userId}/phonelines/${phonelineId}/busyonbusy`, {enabled}));
 
-	getContacts: () =>
-		http.get('/contacts'),
+	getContacts = () =>
+		this.http.get('/contacts');
 
-	getInternalContacts: () =>
-		http.get('/contacts/internal'),
+	getInternalContacts = () =>
+		this.http.get('/contacts/internal');
 
-	deleteContact: contactId =>
-		http.del(`/contacts/${contactId}`),
+	deleteContact = contactId =>
+		this.http.del(`/contacts/${contactId}`);
 
-	deleteAllContacts: () =>
-		http.del('/contacts'),
+	deleteAllContacts = () =>
+		this.http.del('/contacts');
 
-	importContactsFromCSV: base64Content =>
-		http.post('/contacts/import/csv', { base64Content }),
+	importContactsFromCSV = base64Content =>
+		this.http.post('/contacts/import/csv', {base64Content});
 
-	importContactsFromGoogle: token =>
-		http.post('/contacts/import/google', { token }),
+	importContactsFromGoogle = token =>
+		this.http.post('/contacts/import/google', {token});
 
-	fetchSms: userId =>
-		http.get(`/${userId}/sms`),
+	fetchSms = userId =>
+		this.http.get(`/${userId}/sms`);
 
-	setSmsAlias: (userId, smsId, alias) =>
-		http.put(`/${userId}/sms/${smsId}`, { alias }),
+	setSmsAlias = (userId, smsId, alias) =>
+		this.http.put(`/${userId}/sms/${smsId}`, {alias});
 
-	fetchSmsCallerIds: (userId, smsId) =>
-		http.get(`/${userId}/sms/${smsId}/callerids`),
+	fetchSmsCallerIds = (userId, smsId) =>
+		this.http.get(`/${userId}/sms/${smsId}/callerids`);
 
-	createSmsCallerId: (userId, smsId, phonenumber) =>
-		http.post(`/${userId}/sms/${smsId}/callerids`, { phonenumber }),
+	createSmsCallerId = (userId, smsId, phonenumber) =>
+		this.http.post(`/${userId}/sms/${smsId}/callerids`, {phonenumber});
 
-	verifySmsCallerId: (userId, smsId, callerId, verificationCode) =>
-		http.post(`/${userId}/sms/${smsId}/callerids/${callerId}/verification`, { verificationCode }),
+	verifySmsCallerId = (userId, smsId, callerId, verificationCode) =>
+		this.http.post(`/${userId}/sms/${smsId}/callerids/${callerId}/verification`, {verificationCode});
 
-	setActiveSmsCallerId: (userId, smsId, callerId, defaultNumber) =>
-		http.put(`/${userId}/sms/${smsId}/callerids/${callerId}`, { defaultNumber }),
+	setActiveSmsCallerId = (userId, smsId, callerId, defaultNumber) =>
+		this.http.put(`/${userId}/sms/${smsId}/callerids/${callerId}`, {defaultNumber});
 
-	sendFax: (faxlineId, recipient, filename, base64Content) =>
-		http.post('/sessions/fax', { faxlineId, recipient, filename, base64Content }),
+	sendFax = (faxlineId, recipient, filename, base64Content) =>
+		this.http.post('/sessions/fax', {faxlineId, recipient, filename, base64Content});
 
-	resendFax: (faxlineId, faxId) =>
-		http.post('/sessions/fax/resend', { faxlineId, faxId }),
+	resendFax = (faxlineId, faxId) =>
+		this.http.post('/sessions/fax/resend', {faxlineId, faxId});
 
-	sendSms: (smsId, recipient, message) =>
-		http.post('/sessions/sms', { smsId, recipient, message }),
+	sendSms = (smsId, recipient, message) =>
+		this.http.post('/sessions/sms', {smsId, recipient, message});
 
-	getAccount: () =>
-		http.get('/account'),
+	getAccount = () =>
+		this.http.get('/account');
 
-	verifyAccount: verificationCode =>
-		http.put('/account/verified', { verificationCode }),
+	verifyAccount = verificationCode =>
+		this.http.put('/account/verified', {verificationCode});
 
-	getBalance: () =>
-		http.get('/balance'),
+	getBalance = () =>
+		this.http.get('/balance');
 
-	getNotifications: userId =>
-		http.get(`/${userId}/notifications`),
+	getNotifications = userId =>
+		this.http.get(`/${userId}/notifications`);
 
-	deleteNotification: (userId, notificationId) =>
-		http.del(`/${userId}/notifications/${notificationId}`),
+	deleteNotification = (userId, notificationId) =>
+		this.http.del(`/${userId}/notifications/${notificationId}`);
 
-	createVoicemailEmailNotification: (userId, voicemailId, email) =>
-		http.post(`/${userId}/notifications/voicemail/email`, { voicemailId, email }),
+	createVoicemailEmailNotification = (userId, voicemailId, email) =>
+		this.http.post(`/${userId}/notifications/voicemail/email`, {voicemailId, email});
 
-	createVoicemailSmsNotification: (userId, voicemailId, number) =>
-		http.post(`/${userId}/notifications/voicemail/sms`, { voicemailId, number }),
+	createVoicemailSmsNotification = (userId, voicemailId, number) =>
+		this.http.post(`/${userId}/notifications/voicemail/sms`, {voicemailId, number});
 
-	createFaxEmailNotification: (userId, faxlineId, email, direction) =>
-		http.post(`/${userId}/notifications/fax/email`, { faxlineId, email, direction }),
+	createFaxEmailNotification = (userId, faxlineId, email, direction) =>
+		this.http.post(`/${userId}/notifications/fax/email`, {faxlineId, email, direction});
 
-	createFaxSmsNotification: (userId, faxlineId, number, direction) =>
-		http.post(`/${userId}/notifications/fax/sms`, { faxlineId, number, direction }),
+	createFaxSmsNotification = (userId, faxlineId, number, direction) =>
+		this.http.post(`/${userId}/notifications/fax/sms`, {faxlineId, number, direction});
 
-	createCallEmailNotification: (userId, endpointId, email, direction, cause) =>
-		http.post(`/${userId}/notifications/call/email`, { endpointId, email, direction, cause }),
+	createCallEmailNotification = (userId, endpointId, email, direction, cause) =>
+		this.http.post(`/${userId}/notifications/call/email`, {endpointId, email, direction, cause});
 
-	createCallSmsNotification: (userId, endpointId, number, direction, cause) =>
-		http.post(`/${userId}/notifications/call/sms`, { endpointId, number, direction, cause }),
+	createCallSmsNotification = (userId, endpointId, number, direction, cause) =>
+		this.http.post(`/${userId}/notifications/call/sms`, {endpointId, number, direction, cause});
 
-	createFaxReportNotification: (userId, faxlineId, email) =>
-		http.post(`/${userId}/notifications/fax/report`, { faxlineId, email }),
+	createFaxReportNotification = (userId, faxlineId, email) =>
+		this.http.post(`/${userId}/notifications/fax/report`, {faxlineId, email});
 
-	createSmsEmailNotification: (userId, endpointId, email) =>
-		http.post(`/${userId}/notifications/sms/email`, { endpointId, email }),
+	createSmsEmailNotification = (userId, endpointId, email) =>
+		this.http.post(`/${userId}/notifications/sms/email`, {endpointId, email});
 
-	fetchRestrictions: (userId, restrictions) => {
+	fetchRestrictions = (userId, restrictions) => {
 		let url = '/restrictions';
 		if (typeof userId === 'string') {
 			url += `/?userId=${userId}`;
@@ -304,91 +320,100 @@ export default http => ({
 			}
 		}
 
-		return http.get(url);
-	},
+		return this.http.get(url);
+	};
 
-	getSipgateIo: (userId, phonelineId) =>
-		http.get(`/${userId}/phonelines/${phonelineId}/sipgateio`),
+	getSipgateIo = (userId, phonelineId) =>
+		this.http.get(`/${userId}/phonelines/${phonelineId}/sipgateio`);
 
-	setSipgateIo: (userId, phonelineId, sipgateIo) =>
-		http.put(`/${userId}/phonelines/${phonelineId}/sipgateio`, sipgateIo),
+	setSipgateIo = (userId, phonelineId, sipgateIo) =>
+		this.http.put(`/${userId}/phonelines/${phonelineId}/sipgateio`, sipgateIo);
 
-	getSipgateIoLog: (userId, phonelineId) =>
-		http.get(`/${userId}/phonelines/${phonelineId}/sipgateio/log`),
+	getSipgateIoLog = (userId, phonelineId) =>
+		this.http.get(`/${userId}/phonelines/${phonelineId}/sipgateio/log`);
 
-	getUserInfo: () =>
-		http.get('/authorization/userinfo'),
+	getUserInfo = () =>
+		this.http.get('/authorization/userinfo');
 
-	getLocalprefix: deviceId => http.get(`/devices/${deviceId}/localprefix`),
+	getLocalprefix = deviceId => this.http.get(`/devices/${deviceId}/localprefix`);
 
-	setLocalprefix: (deviceId, localprefix, active) =>
-		http.put(`/devices/${deviceId}/localprefix`, { value: localprefix, active }),
+	setLocalprefix = (deviceId, localprefix, active) =>
+		this.http.put(`/devices/${deviceId}/localprefix`, {
+			value: localprefix, active
+		});
 
-	activateSim: (userId, deviceId, simId) =>
-		http.post(`/${userId}/devices/${deviceId}/sim`, { simId }),
+	activateSim = (userId, deviceId, simId) =>
+		this.http.post(`/${userId}/devices/${deviceId}/sim`, {simId});
 
-	deactivateSim: (userId, deviceId) =>
-		http.del(`/${userId}/devices/${deviceId}/sim`),
+	deactivateSim = (userId, deviceId) =>
+		this.http.del(`/${userId}/devices/${deviceId}/sim`);
 
-	getContingents: (userId, deviceId) =>
-		http.get(`/${userId}/devices/${deviceId}/contingents`),
+	getContingents = (userId, deviceId) =>
+		this.http.get(`/${userId}/devices/${deviceId}/contingents`);
 
-	orderSim: (userId, deviceId, addressId) =>
-		http.post(`/${userId}/devices/${deviceId}/sim/orders`, { addressId }),
+	orderSim = (userId, deviceId, addressId) =>
+		this.http.post(`/${userId}/devices/${deviceId}/sim/orders`, {addressId});
 
-	getSingleRowDisplay: deviceId =>
-		http.get(`/devices/${deviceId}/singlerowdisplay`),
+	getSingleRowDisplay = deviceId =>
+		this.http.get(`/devices/${deviceId}/singlerowdisplay`);
 
-	setSingleRowDisplay: (deviceId, enabled) =>
-		http.put(`/devices/${deviceId}/singlerowdisplay`, { enabled }),
+	setSingleRowDisplay = (deviceId, enabled) =>
+		this.http.put(`/devices/${deviceId}/singlerowdisplay`, {enabled});
 
-	getGroups: (userId) => {
+	getGroups = (userId) => {
 		let url = '/groups';
 		if (typeof userId === 'string') {
 			url += `?userId=${userId}`;
 		}
-		return http.get(url);
-	},
+		return this.http.get(url);
+	};
 
-	getGroupNumbers: groupId =>
-		http.get(`/groups/${groupId}/numbers`),
+	getGroupNumbers = groupId =>
+		this.http.get(`/groups/${groupId}/numbers`);
 
-	getGroupUsers: groupId =>
-		http.get(`/groups/${groupId}/users`),
+	getGroupUsers = groupId =>
+		this.http.get(`/groups/${groupId}/users`);
 
-	createGroupDevice: (groupId, deviceId) =>
-		http.post(`/groups/${groupId}/devices`, { deviceId }),
+	createGroupDevice = (groupId, deviceId) =>
+		this.http.post(`/groups/${groupId}/devices`, {deviceId});
 
-	deleteGroupDevice: (groupId, deviceId) =>
-		http.del(`/groups/${groupId}/devices/${deviceId}`),
+	deleteGroupDevice = (groupId, deviceId) =>
+		this.http.del(`/groups/${groupId}/devices/${deviceId}`);
 
-	getGroupVoicemail: groupId =>
-		http.get(`/groups/${groupId}/voicemail`),
+	getGroupVoicemail = groupId =>
+		this.http.get(`/groups/${groupId}/voicemail`);
 
-	getGroupFaxline: (userId) => {
+	getGroupFaxline = (userId) => {
 		let url = '/groupfaxlines';
 		if (typeof userId === 'string') {
 			url += `?userId=${userId}`;
 		}
-		return http.get(url);
-	},
+		return this.http.get(url);
+	};
 
-	getGroupFaxlineCallerId: faxlineId =>
-		http.get(`/groupfaxlines/${faxlineId}/callerid`),
+	getGroupFaxlineCallerId = faxlineId =>
+		this.http.get(`/groupfaxlines/${faxlineId}/callerid`);
 
-	getGroupFaxlineNumbers: faxlineId =>
-		http.get(`/groupfaxlines/${faxlineId}/numbers`),
+	getGroupFaxlineNumbers = faxlineId =>
+		this.http.get(`/groupfaxlines/${faxlineId}/numbers`);
 
-	validateQuickDialNumbers: quickDialNumber =>
-		http.get(`/numbers/quickdial/validation/${quickDialNumber}`),
+	validateQuickDialNumbers = quickDialNumber =>
+		this.http.get(`/numbers/quickdial/validation/${quickDialNumber}`);
 
-	createQuickDialNumber: (userId, number) =>
-		http.post('/numbers/quickdial', { userId, number }),
+	createQuickDialNumber = (userId, number) =>
+		this.http.post('/numbers/quickdial', {userId, number});
 
-	setQuickDialNumber: (userId, numberId, number) =>
-		http.put(`/numbers/quickdial/${numberId}`, { userId, number }),
+	setQuickDialNumber = (userId, numberId, number) =>
+		this.http.put(`/numbers/quickdial/${numberId}`, {userId, number});
 
-	deleteQuickDialNumber: numberId =>
-		http.del(`/numbers/quickdial/${numberId}`),
+	deleteQuickDialNumber = numberId =>
+		this.http.del(`/numbers/quickdial/${numberId}`);
+}
 
-});
+export default (http) => {
+	const client = new Client();
+	client.http = http;
+	return client;
+};
+
+export const httpClient = Client;
