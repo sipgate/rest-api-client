@@ -6,9 +6,9 @@
   "scripts": {
     "lint": "eslint .",
     "lintfix": "eslint --fix .",
-    "compile": "npm run clean && babel src -d dist",
+    "build": "npm run clean && babel src -d dist",
     "clean": "rimraf dist/*",
-    "prepublish": "npm run clean && npm run lint && npm run compile"
+    "prepublish": "npm run clean && npm run lint && npm run build"
   },
   "keywords": [
     "sipgate",
