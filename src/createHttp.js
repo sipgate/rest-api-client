@@ -1,10 +1,7 @@
 import HttpClient from './HttpClient';
 
 export default (apiUrl, token = null, onPromiseResolved) => {
-	const http = new HttpClient();
-	http.apiUrl = apiUrl;
-	http.token = token;
-	http.onPromiseResolved = onPromiseResolved;
+	const http = new HttpClient({ apiUrl, token, onPromiseResolved });
 	return {
 		getUnauthenticated: path => http.get(path),
 		get: path => http.get(path),

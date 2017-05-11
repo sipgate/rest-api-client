@@ -30,12 +30,10 @@ const parseJSON = (text) => {
 	}
 };
 
-export default class HttpClient {
-	token = null;
-	apiUrl = '';
-	onPromiseResolved = result => result;
+const identity = result => result;
 
-	constructor({ token, apiUrl, onPromiseResolved }) {
+export default class HttpClient {
+	constructor({ token = null, apiUrl = '', onPromiseResolved = identity } = {}) {
 		this.token = token;
 		this.apiUrl = apiUrl;
 		this.onPromiseResolved = onPromiseResolved;

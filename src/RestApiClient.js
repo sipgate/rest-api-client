@@ -5,7 +5,7 @@ import join from 'lodash/join';
 export default class RestApiClient {
 	http = null;
 
-	constructor(http) {
+	constructor(http = null) {
 		this.http = http;
 	}
 
