@@ -39,7 +39,9 @@ export default class HttpClient {
 		this.onPromiseResolved = onPromiseResolved;
 	}
 
-	get = (path) => {
+	getUnauthenticated = path => this.get(path, false);
+
+	get = (path, authenticated = true) => {
 		const url = this.apiUrl + path;
 
 		if (promiseCache.get(url)) {
@@ -48,7 +50,7 @@ export default class HttpClient {
 
 		const promise = fetch(url, {
 			method: 'get',
-			headers: defaultHeaders(this.token),
+			headers: defaultHeaders(authenticated ? this.token : null),
 		})
 			.then(this.onPromiseResolved)
 			.then(
