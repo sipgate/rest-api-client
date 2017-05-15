@@ -33,13 +33,21 @@ const parseJSON = (text) => {
 const identity = result => result;
 
 export default class HttpClient {
-	constructor({ token = null, apiUrl = '', onPromiseResolved = identity } = {}) {
+	constructor({ token = null, apiUrl = '', onPromiseResolved = identity, onUnauthorized = () => {} } = {}) {
 		this.token = token;
 		this.apiUrl = apiUrl;
 		this.onPromiseResolved = onPromiseResolved;
+		this.onUnauthorized = onUnauthorized;
 	}
 
 	getUnauthenticated = path => this.get(path, false);
+
+	handleUnauthorized = (response) => {
+		if (response.status === 401) {
+			this.onUnauthorized();
+		}
+		return response;
+	};
 
 	get = (path, authenticated = true) => {
 		const url = this.apiUrl + path;
@@ -52,6 +60,7 @@ export default class HttpClient {
 			method: 'get',
 			headers: defaultHeaders(authenticated ? this.token : null),
 		})
+			.then(this.handleUnauthorized)
 			.then(this.onPromiseResolved)
 			.then(
 				(response) => {
@@ -72,9 +81,10 @@ export default class HttpClient {
 			method: 'delete',
 			headers: defaultHeaders(this.token),
 		})
-				.then(this.onPromiseResolved)
-				.then(extractBody)
-				.then(parseJSON)
+			.then(this.handleUnauthorized)
+			.then(this.onPromiseResolved)
+			.then(extractBody)
+			.then(parseJSON)
 	);
 
 	post = (path, data = {}) => (
@@ -83,6 +93,7 @@ export default class HttpClient {
 			body: JSON.stringify(data),
 			headers: defaultHeaders(this.token),
 		})
+			.then(this.handleUnauthorized)
 			.then(this.onPromiseResolved)
 			.then(extractBody)
 			.then(parseJSON)
@@ -94,6 +105,7 @@ export default class HttpClient {
 			body: JSON.stringify(data),
 			headers: defaultHeaders(this.token),
 		})
+			.then(this.handleUnauthorized)
 			.then(this.onPromiseResolved)
 			.then(extractBody)
 			.then(parseJSON)
