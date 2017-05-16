@@ -33,11 +33,18 @@ const parseJSON = (text) => {
 const identity = result => result;
 
 export default class HttpClient {
-	constructor({ token = null, apiUrl = '', onPromiseResolved = identity, onUnauthorized = () => {} } = {}) {
+	constructor({ token = null, apiUrl = '', onPromiseResolved = identity, onUnauthorized = () => {}, getToken } = {}) {
 		this.token = token;
 		this.apiUrl = apiUrl;
 		this.onPromiseResolved = onPromiseResolved;
 		this.onUnauthorized = onUnauthorized;
+		this.getToken = () => {
+			if (getToken instanceof Function) {
+				return getToken();
+			}
+
+			return this.token;
+		};
 	}
 
 	getUnauthenticated = path => this.get(path, false);
@@ -58,7 +65,7 @@ export default class HttpClient {
 
 		const promise = fetch(url, {
 			method: 'get',
-			headers: defaultHeaders(authenticated ? this.token : null),
+			headers: defaultHeaders(authenticated ? this.getToken() : null),
 		})
 			.then(this.handleUnauthorized)
 			.then(this.onPromiseResolved)
@@ -79,7 +86,7 @@ export default class HttpClient {
 	del = path => (
 		fetch(this.apiUrl + path, {
 			method: 'delete',
-			headers: defaultHeaders(this.token),
+			headers: defaultHeaders(this.getToken()),
 		})
 			.then(this.handleUnauthorized)
 			.then(this.onPromiseResolved)
@@ -91,7 +98,7 @@ export default class HttpClient {
 		fetch(this.apiUrl + path, {
 			method: 'post',
 			body: JSON.stringify(data),
-			headers: defaultHeaders(this.token),
+			headers: defaultHeaders(this.getToken()),
 		})
 			.then(this.handleUnauthorized)
 			.then(this.onPromiseResolved)
@@ -103,7 +110,7 @@ export default class HttpClient {
 		fetch(this.apiUrl + path, {
 			method: 'put',
 			body: JSON.stringify(data),
-			headers: defaultHeaders(this.token),
+			headers: defaultHeaders(this.getToken()),
 		})
 			.then(this.handleUnauthorized)
 			.then(this.onPromiseResolved)
