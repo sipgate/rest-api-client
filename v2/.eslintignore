@@ -1,0 +1,8 @@
+bin/
+compiled/
+build/
+config/
+coverage/
+debian/
+dist/
+server/
