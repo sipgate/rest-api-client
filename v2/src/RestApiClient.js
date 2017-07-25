@@ -278,6 +278,9 @@ export default class RestApiClient {
 	sendSms = (smsId, recipient, message) =>
 		this.http.post('/sessions/sms', { smsId, recipient, message });
 
+	getIdentityVerification = () =>
+		this.http.get('/identityVerification');
+
 	getAccount = () =>
 		this.http.get('/account');
 
