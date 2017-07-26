@@ -76,7 +76,11 @@ export default class HttpClient {
 				},
 			)
 			.then(extractBody)
-			.then(parseJSON);
+			.then(parseJSON)
+			.catch((reason) => {
+				promiseCache.bust(url);
+				return Promise.reject(reason);
+			});
 
 		promiseCache.set(url, promise);
 
