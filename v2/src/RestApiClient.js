@@ -371,6 +371,9 @@ export default class RestApiClient {
 	setSingleRowDisplay = (deviceId, enabled) =>
 		this.http.put(`/devices/${deviceId}/singlerowdisplay`, { enabled });
 
+	setTargetNumberForExternalDevice = (deviceId, number) =>
+		this.http.put(`/devices/${deviceId}/external/targetnumber`, { number });
+
 	getGroups = (userId) => {
 		let url = '/groups';
 		if (typeof userId === 'string') {
