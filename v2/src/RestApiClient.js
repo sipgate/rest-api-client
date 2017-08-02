@@ -149,6 +149,9 @@ export default class RestApiClient {
 	createDevice = (userId, type) =>
 		this.http.post(`/${userId}/devices`, { type });
 
+	createDeviceExternal = (userId, alias, number) =>
+		this.http.post(`/${userId}/devices/external`, { alias, number });
+
 	deleteDevice = deviceId =>
 		this.http.del(`/devices/${deviceId}`);
 
