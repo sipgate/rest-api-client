@@ -52,7 +52,6 @@ export default class HttpClient {
 	handleUnauthorized = (response) => {
 		if (response.status === 401) {
 			this.onUnauthorized();
-			throw new Error('Unauthorized');
 		}
 		return response;
 	};
