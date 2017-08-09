@@ -184,6 +184,9 @@ export default class RestApiClient {
 	deleteEvent = id =>
 		this.http.del(`/app/events/${id}`);
 
+	getAppProperties = () =>
+		this.http.get('/app/properties');
+
 	getCallerId = deviceId =>
 		this.http.get(`/devices/${deviceId}/callerid`);
 
@@ -215,11 +218,8 @@ export default class RestApiClient {
 	revokePorting = portingId =>
 		this.http.del(`/portings/${portingId}`);
 
-	getWelcome = () =>
-		this.http.get('/app/welcome');
-
 	setWelcome = enabled =>
-		this.http.put('/app/welcome', { enabled });
+		this.http.put('/app/properties/welcome', { enabled });
 
 	initiateClickToDial = (caller, callee) =>
 		this.http.post('/sessions/calls', { caller, callee });
