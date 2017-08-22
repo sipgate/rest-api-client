@@ -377,8 +377,8 @@ export default class RestApiClient {
 	setTargetNumberForExternalDevice = (deviceId, number) =>
 		this.http.put(`/devices/${deviceId}/external/targetnumber`, { number });
 
-	setIncomingCallDisplayForExternalDevice = (deviceId, incomingCallDisplayState) =>
-		this.http.put(`/devices/${deviceId}/external/incomingcalldisplay`, { incomingCallDisplayState });
+	setIncomingCallDisplayForExternalDevice = (deviceId, incomingCallDisplay) =>
+		this.http.put(`/devices/${deviceId}/external/incomingcalldisplay`, { incomingCallDisplay });
 
 	getGroups = (userId) => {
 		let url = '/groups';
