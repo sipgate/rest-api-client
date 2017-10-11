@@ -167,10 +167,11 @@ export default class RestApiClient {
 	fetchLinks = () =>
 		this.http.get('/app/links');
 
-	getHistory = (userId, phonelineId, types, directions, limit) => {
-		let url = `/${userId}/history?phonelineId=${phonelineId}&limit=${limit}`;
+	getHistory = (userId, connectionIds, types, directions, limit) => {
+		let url = `/history?limit=${limit}`;
 		url += reduce(types, (joined, type) => `${joined}&types=${type}`, '');
 		url += reduce(directions, (joined, direction) => `${joined}&directions=${direction}`, '');
+		url += reduce(connectionIds, (joined, connectionId) => `${joined}&connectionIds=${connectionId}`, '');
 
 		return this.http.get(url);
 	};
