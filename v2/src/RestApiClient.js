@@ -167,11 +167,7 @@ export default class RestApiClient {
 	fetchLinks = () =>
 		this.http.get('/app/links');
 
-	getHistory = (userId, connectionIds, types, directions, limit) => {
-		if(!Array.isArray(connectionIds)) {
-			connectionIds = [connectionIds];
-		}
-		
+	getHistory = (connectionIds, types, directions, limit) => {
 		let url = `/history?limit=${limit}`;
 		url += reduce(types, (joined, type) => `${joined}&types=${type}`, '');
 		url += reduce(directions, (joined, direction) => `${joined}&directions=${direction}`, '');
@@ -180,8 +176,8 @@ export default class RestApiClient {
 		return this.http.get(url);
 	};
 
-	deleteHistoryEntry = (userId, id) =>
-		this.http.del(`/${userId}/history/${id}`);
+	deleteHistoryEntry = (id) =>
+		this.http.del(`/history/${id}`);
 
 	getEvents = () =>
 		this.http.get('/app/events');
