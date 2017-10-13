@@ -168,6 +168,10 @@ export default class RestApiClient {
 		this.http.get('/app/links');
 
 	getHistory = (userId, connectionIds, types, directions, limit) => {
+		if(!Array.isArray(connectionIds)) {
+			connectionIds = [connectionIds];
+		}
+		
 		let url = `/history?limit=${limit}`;
 		url += reduce(types, (joined, type) => `${joined}&types=${type}`, '');
 		url += reduce(directions, (joined, direction) => `${joined}&directions=${direction}`, '');
