@@ -176,7 +176,7 @@ export default class RestApiClient {
 		return this.http.get(url);
 	};
 
-	deleteHistoryEntry = (id) =>
+	deleteHistoryEntry = id =>
 		this.http.del(`/history/${id}`);
 
 	getEvents = () =>
