@@ -291,6 +291,15 @@ export default class RestApiClient {
 	verifyAccount = verificationCode =>
 		this.http.put('/account/verified', { verificationCode });
 
+	getShortTermVerificationStatus = () =>
+		this.http.get('/account/verification/shortterm');
+
+	initiateShortTermVerification = () =>
+		this.http.post('/account/verification/shortterm');
+
+	validateShortTermVerificationCode = code =>
+		this.http.put(`/account/verification/shortterm/${code}`);
+
 	getBalance = () =>
 		this.http.get('/balance');
 
