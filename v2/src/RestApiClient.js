@@ -438,5 +438,14 @@ export default class RestApiClient {
 
 	deleteQuickDialNumber = numberId =>
 		this.http.del(`/numbers/quickdial/${numberId}`);
+
+	getIncomingBlacklistEntries = () =>
+		this.http.get('/blacklist/incoming');
+
+	createIncomingBlacklistEntry = phoneNumber =>
+		this.http.post('/blacklist/incoming', { phoneNumber });
+
+	deleteIncomingBlacklistEntry = phoneNumber =>
+		this.http.del(`/blacklist/incoming/${phoneNumber}`);
 }
 
