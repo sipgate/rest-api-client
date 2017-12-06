@@ -447,5 +447,12 @@ export default class RestApiClient {
 
 	deleteIncomingBlacklistEntry = phoneNumber =>
 		this.http.del(`/blacklist/incoming/${phoneNumber}`);
+
+	updateSnomConfig = (config, macAddress) =>
+		this.http.put('/phoneprovisioning/configuration', { config, macAddress });
+
+	getProvisionedPhones = () =>
+		this.http.get('/phoneprovisioning');
+
 }
 
