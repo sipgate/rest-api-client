@@ -454,5 +454,16 @@ export default class RestApiClient {
 	getProvisionedPhones = () =>
 		this.http.get('/phoneprovisioning');
 
+	getOAuth2Clients = () =>
+		this.http.get('/authorization/oauth2/clients');
+	
+	deleteOAuth2Client = clientId => 
+		this.http.del(`/authorization/oauth2/clients/${clientId}`);
+	
+	createOAuth2Client = client => 
+		this.http.post('/authorization/oauth2/clients', { client });
+	
+	createOAuth2Client = (clientId, client) => 
+		this.http.put(`/authorization/oauth2/clients/${clientId}`, { client });
 }
 
