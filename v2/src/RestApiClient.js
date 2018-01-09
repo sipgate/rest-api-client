@@ -465,5 +465,11 @@ export default class RestApiClient {
 
 	setOAuth2Client = (clientId, client) =>
 		this.http.put(`/authorization/oauth2/clients/${clientId}`, { client });
+
+	getAutoRecordingSetting = deviceId =>
+			this.http.get(`/autorecordings/${deviceId}/settings`);
+
+	setAutoRecordingSetting = (deviceId, active) =>
+			this.http.put(`/autorecordings/${deviceId}/settings`, { active });
 }
 
