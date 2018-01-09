@@ -463,7 +463,7 @@ export default class RestApiClient {
 	createOAuth2Client = client =>
 		this.http.post('/authorization/oauth2/clients', { client });
 
-	createOAuth2Client = (clientId, client) =>
+	setOAuth2Client = (clientId, client) =>
 		this.http.put(`/authorization/oauth2/clients/${clientId}`, { client });
 }
 
