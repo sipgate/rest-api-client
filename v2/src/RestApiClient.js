@@ -347,6 +347,10 @@ export default class RestApiClient {
 		return this.http.get(url);
 	};
 
+	getWebhooks = () => this.http.get('/settings/sipgateio');
+
+	setWebhooks = settings => this.http.put('/settings/sipgateio', settings);
+
 	getSipgateIo = (userId, phonelineId) =>
 		this.http.get(`/${userId}/phonelines/${phonelineId}/sipgateio`);
 
