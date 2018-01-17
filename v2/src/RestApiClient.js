@@ -158,12 +158,6 @@ export default class RestApiClient {
 	getTacs = () =>
 		this.http.get('/app/tacs');
 
-	acceptTacs = () =>
-		this.http.put('/app/tacs', {
-			accepted: true,
-		},
-		);
-
 	fetchLinks = () =>
 		this.http.get('/app/links');
 
