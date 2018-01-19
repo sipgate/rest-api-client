@@ -225,12 +225,6 @@ export default class RestApiClient {
 	setPhonelineBlockAnonymous = (userId, phonelineId, enabled, target) =>
 		this.http.put(`/${userId}/phonelines/${phonelineId}/blockanonymous`, { enabled, target });
 
-	getPhonelineBusyOnBusy = (userId, phonelineId) =>
-		(this.http.get(`/${userId}/phonelines/${phonelineId}/busyonbusy`));
-
-	setPhonelineBusyOnBusy = (userId, phonelineId, enabled) =>
-		(this.http.put(`/${userId}/phonelines/${phonelineId}/busyonbusy`, { enabled }));
-
 	getContacts = () =>
 		this.http.get('/contacts');
 
