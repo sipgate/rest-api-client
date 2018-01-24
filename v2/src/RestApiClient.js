@@ -348,6 +348,8 @@ export default class RestApiClient {
 	getSipgateIoLog = (userId, phonelineId) =>
 		this.http.get(`/${userId}/phonelines/${phonelineId}/sipgateio/log`);
 
+	getWebhooksLog = () => this.http.get('/log/webhooks');
+
 	getUserInfo = () =>
 		this.http.get('/authorization/userinfo');
 
