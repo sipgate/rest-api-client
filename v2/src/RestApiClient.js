@@ -461,9 +461,22 @@ export default class RestApiClient {
 		this.http.put(`/authorization/oauth2/clients/${clientId}`, client);
 
 	getAutoRecordingSetting = deviceId =>
-			this.http.get(`/autorecordings/${deviceId}/settings`);
+		this.http.get(`/autorecordings/${deviceId}/settings`);
 
 	setAutoRecordingSetting = (deviceId, active) =>
-			this.http.put(`/autorecordings/${deviceId}/settings`, { active });
+		this.http.put(`/autorecordings/${deviceId}/settings`, { active });
+
+	getCrmBridgeTokens = () =>
+		this.http.get('/crm-bridge/tokens');
+
+	createCrmBridgeToken = (crm, token) =>
+		this.http.post('/crm-bridge/tokens', { crm, token });
+
+	deleteCrmBridgeToken = id =>
+		this.http.del(`/crm-bridge/tokens/${id}`);
+
+	updateCrmBridgeToken = (id, crm, token) =>
+		this.http.put(`/crm-bridge/tokens/${id}`, { crm, token });
+
 }
 
