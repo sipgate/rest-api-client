@@ -451,6 +451,21 @@ export default class RestApiClient {
 	getOAuth2Clients = () =>
 		this.http.get('/authorization/oauth2/clients');
 
+	getAutocrediting = () =>
+		this.http.get('/payment/autocrediting');
+
+	getPaymentMethods = () =>
+		this.http.get('/payment/paymentmethods');
+
+	deletePaymentMethod = id =>
+		this.http.del(`/payment/paymentmethod/${id}`);
+
+	createDebitSepa = (holder, iban, bic) =>
+		this.http.post('/payment/paymentmethod/debitsepa', { holder, iban, bic });
+
+	createCreditCard = (holder, number, expMonth, expYear, cvc) =>
+		this.http.post('/payment/paymentmethod/creditcard', { holder, number, expMonth, expYear, cvc });
+
 	deleteOAuth2Client = clientId =>
 		this.http.del(`/authorization/oauth2/clients/${clientId}`);
 
