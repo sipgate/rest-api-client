@@ -484,14 +484,14 @@ export default class RestApiClient {
 	getCrmBridgeTokens = () =>
 		this.http.get('/crm-bridge/tokens');
 
-	createCrmBridgeToken = (crm, token) =>
-		this.http.post('/crm-bridge/tokens', { crm, token });
+	createCrmBridgeToken = (crm, token, url) =>
+		this.http.post('/crm-bridge/tokens', { crm, token, url });
 
 	deleteCrmBridgeToken = id =>
 		this.http.del(`/crm-bridge/tokens/${id}`);
 
-	updateCrmBridgeToken = (id, crm, token) =>
-		this.http.put(`/crm-bridge/tokens/${id}`, { crm, token });
+	updateCrmBridgeToken = (id, crm, token, url) =>
+		this.http.put(`/crm-bridge/tokens/${id}`, { crm, token, url });
 
 }
 
