@@ -481,6 +481,9 @@ export default class RestApiClient {
 	setAutoRecordingSetting = (deviceId, active) =>
 		this.http.put(`/autorecordings/${deviceId}/settings`, { active });
 
+	getCrmBridgeSupportedCrms = () =>
+		this.http.get('/crm-bridge/crms');
+
 	getCrmBridgeTokens = () =>
 		this.http.get('/crm-bridge/tokens');
 
