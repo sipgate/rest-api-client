@@ -1,7 +1,21 @@
 import HttpClient from './HttpClient';
 
-export default (apiUrl, token = null, onPromiseResolved, onUnauthorized = () => {}, getToken) => {
-	const http = new HttpClient({ apiUrl, token, onPromiseResolved, onUnauthorized, getToken });
+export default (
+	apiUrl,
+	token = null,
+	onPromiseResolved,
+	onUnauthorized = () => {},
+	getToken,
+	skipResponseErrorHandling = false,
+) => {
+	const http = new HttpClient({
+		apiUrl,
+		token,
+		onPromiseResolved,
+		onUnauthorized,
+		getToken,
+		skipResponseErrorHandling,
+	});
 	return {
 		getUnauthenticated: path => http.getUnauthenticated(path),
 		get: path => http.get(path),

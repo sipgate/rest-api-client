@@ -10,5 +10,10 @@ export {
 	createClient,
 };
 
-export default (apiUrl, token, onPromiseResolved = promise => promise) =>
-	createClient(createHttp(apiUrl, token, onPromiseResolved));
+export default (
+	apiUrl,
+	token,
+	onPromiseResolved = promise => promise,
+	skipResponseErrorHandling = false,
+) =>
+	createClient(createHttp(apiUrl, token, onPromiseResolved, skipResponseErrorHandling));

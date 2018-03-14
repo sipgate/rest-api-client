@@ -17,6 +17,7 @@
 	},
 	"rules": {
 		"indent" : [2, "tab", { "SwitchCase": 1 }],
-		"no-tabs": 0
+		"no-tabs": 0,
+		"no-confusing-arrow": ["error", {"allowParens": true}]
 	}
 }
