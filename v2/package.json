@@ -8,6 +8,8 @@
     "lintfix": "eslint --fix .",
     "build": "npm run clean && babel src -d dist",
     "clean": "rimraf dist/*",
+    "format": "prettier --write \"src/**/*.js{,x}\"",
+    "precommit": "lint-staged",
     "prepublish": "npm run clean && npm run lint && npm run build"
   },
   "keywords": [
@@ -36,8 +38,19 @@
     "babel-preset-stage-2": "^6.24.1",
     "eslint": "^3.9.1",
     "eslint-config-airbnb-base": "^10.0.1",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^3.0.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.0",
+    "prettier": "^1.11.1",
     "rimraf": "^2.5.4"
+  },
+  "lint-staged": {
+    "src/*.{js,json,css,md}": [
+      "prettier --write",
+      "eslint",
+      "git add"
+    ]
   }
 }

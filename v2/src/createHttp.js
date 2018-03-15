@@ -6,7 +6,7 @@ export default (
 	onPromiseResolved,
 	onUnauthorized = () => {},
 	getToken,
-	skipResponseErrorHandling = false,
+	skipResponseErrorHandling = false
 ) => {
 	const http = new HttpClient({
 		apiUrl,

@@ -1,7 +1,8 @@
 {
 	"parser": "babel-eslint",
 	"extends": [
-		"airbnb-base"
+		"airbnb-base",
+		"prettier"
 	],
 	"globals" : {
 		"__LOCAL__"    : false,

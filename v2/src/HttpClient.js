@@ -3,7 +3,7 @@ import promiseCache from './promiseCache';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
-const defaultHeaders = (token) => {
+const defaultHeaders = token => {
 	const authorization = token ? `Bearer ${token}` : null;
 	const headers = {
 		Accept: 'application/json',
@@ -20,7 +20,7 @@ const defaultHeaders = (token) => {
 
 const extractBody = res => res.text();
 
-const parseJSON = (text) => {
+const parseJSON = text => {
 	try {
 		return JSON.parse(text);
 	} catch (e) {
@@ -30,28 +30,29 @@ const parseJSON = (text) => {
 
 const identity = result => result;
 
-const buildResponseError = response =>
+const throwResponseError = response =>
 	response
-	.text()
-	.then(body => JSON.parse(body))
-	.catch(() => Promise.resolve())
-	.then((body) => {
-		const error = new Error();
-		error.payload = {
-			status: response.status,
-			statusText: response.statusText,
-			body,
-		};
-		throw error;
-	});
+		.text()
+		.then(body => JSON.parse(body))
+		.catch(() => Promise.resolve())
+		.then(body => {
+			const error = new Error();
+			error.payload = {
+				status: response.status,
+				statusText: response.statusText,
+				body,
+			};
+			throw error;
+		});
 
 const isSuccessStatusCode = statusCode => statusCode >= 200 && statusCode < 300;
 
-const handleErrorResponses = response => (
-	isSuccessStatusCode(response.status)
-		? response
-		: buildResponseError(response)
-);
+const handleErrorResponses = response => {
+	if (!isSuccessStatusCode(response.status)) {
+		throwResponseError(response);
+	}
+	return response;
+};
 
 export default class HttpClient {
 	constructor({
@@ -78,7 +79,7 @@ export default class HttpClient {
 
 	getUnauthenticated = path => this.get(path, false);
 
-	handleUnauthorized = (response) => {
+	handleUnauthorized = response => {
 		if (response.status === 401) {
 			this.onUnauthorized();
 		}
@@ -96,19 +97,19 @@ export default class HttpClient {
 			method: 'get',
 			headers: defaultHeaders(authenticated ? this.getToken() : null),
 		})
-		.then(this.handleUnauthorized)
-		.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
-		.then(this.onPromiseResolved)
-		.then((response) => {
-			promiseCache.bust(url);
-			return response;
-		})
-		.then(extractBody)
-		.then(parseJSON)
-		.catch((reason) => {
-			promiseCache.bust(url);
-			return Promise.reject(reason);
-		});
+			.then(this.handleUnauthorized)
+			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
+			.then(this.onPromiseResolved)
+			.then(response => {
+				promiseCache.bust(url);
+				return response;
+			})
+			.then(extractBody)
+			.then(parseJSON)
+			.catch(reason => {
+				promiseCache.bust(url);
+				return Promise.reject(reason);
+			});
 
 		promiseCache.set(url, promise);
 
@@ -120,11 +121,11 @@ export default class HttpClient {
 			method: 'delete',
 			headers: defaultHeaders(this.getToken()),
 		})
-		.then(this.handleUnauthorized)
-		.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
-		.then(this.onPromiseResolved)
-		.then(extractBody)
-		.then(parseJSON);
+			.then(this.handleUnauthorized)
+			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
+			.then(this.onPromiseResolved)
+			.then(extractBody)
+			.then(parseJSON);
 
 	post = (path, data = {}) =>
 		fetch(this.apiUrl + path, {
@@ -132,11 +133,11 @@ export default class HttpClient {
 			body: JSON.stringify(data),
 			headers: defaultHeaders(this.getToken()),
 		})
-		.then(this.handleUnauthorized)
-		.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
-		.then(this.onPromiseResolved)
-		.then(extractBody)
-		.then(parseJSON);
+			.then(this.handleUnauthorized)
+			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
+			.then(this.onPromiseResolved)
+			.then(extractBody)
+			.then(parseJSON);
 
 	put = (path, data = {}) =>
 		fetch(this.apiUrl + path, {
@@ -144,9 +145,9 @@ export default class HttpClient {
 			body: JSON.stringify(data),
 			headers: defaultHeaders(this.getToken()),
 		})
-		.then(this.handleUnauthorized)
-		.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
-		.then(this.onPromiseResolved)
-		.then(extractBody)
-		.then(parseJSON);
+			.then(this.handleUnauthorized)
+			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
+			.then(this.onPromiseResolved)
+			.then(extractBody)
+			.then(parseJSON);
 }

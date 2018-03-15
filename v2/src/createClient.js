@@ -1,6 +1,6 @@
 import RestApiClient from './RestApiClient';
 
-export default (http) => {
+export default http => {
 	const client = new RestApiClient(http);
 
 	return Object.getOwnPropertyNames(RestApiClient.prototype)
@@ -11,8 +11,8 @@ export default (http) => {
 		.reduce(
 			(acc, name) => ({
 				...acc,
-				[name]: (...args) => (client[name](...args)),
+				[name]: (...args) => client[name](...args),
 			}),
-			{},
+			{}
 		);
 };
