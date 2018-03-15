@@ -4,3 +4,4 @@ node_modules
 /rest-api-client.iml
 yarn-error.log
 npm-debug.log
+package-lock.json
