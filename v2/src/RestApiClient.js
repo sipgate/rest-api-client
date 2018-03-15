@@ -1,6 +1,4 @@
-import reduce from 'lodash/reduce';
-import map from 'lodash/map';
-import join from 'lodash/join';
+import { map, reduce, join } from 'lodash';
 
 export default class RestApiClient {
 	http = null;
