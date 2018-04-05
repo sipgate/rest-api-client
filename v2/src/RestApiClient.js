@@ -228,7 +228,11 @@ export default class RestApiClient {
 
 	getPortings = () => this.http.get('/portings');
 
-	revokePorting = portingId => this.http.del(`/portings/${portingId}`);
+	getPorting = portingId =>
+		this.http.get(`/portings/${portingId}`);
+
+	revokePorting = portingId =>
+		this.http.del(`/portings/${portingId}`);
 
 	setWelcome = enabled => this.http.put('/app/properties/welcome', { enabled });
 
