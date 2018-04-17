@@ -193,6 +193,9 @@ export default class RestApiClient {
 		return this.http.get(url);
 	};
 
+	setHistoryItemReadState = (entryId, readState) =>
+		this.http.put(`/history/${entryId}/read`, { value: readState });
+
 	deleteHistoryEntry = id => this.http.del(`/history/${id}`);
 
 	getEvents = () => this.http.get('/app/events');
@@ -228,11 +231,9 @@ export default class RestApiClient {
 
 	getPortings = () => this.http.get('/portings');
 
-	getPorting = portingId =>
-		this.http.get(`/portings/${portingId}`);
+	getPorting = portingId => this.http.get(`/portings/${portingId}`);
 
-	revokePorting = portingId =>
-		this.http.del(`/portings/${portingId}`);
+	revokePorting = portingId => this.http.del(`/portings/${portingId}`);
 
 	setWelcome = enabled => this.http.put('/app/properties/welcome', { enabled });
 
