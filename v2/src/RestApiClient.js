@@ -176,8 +176,12 @@ export default class RestApiClient {
 
 	fetchLinks = () => this.http.get('/app/links');
 
-	getHistory = (connectionIds, types, directions, limit) => {
+	getHistory = (connectionIds, types, directions, limit, archived) => {
 		let url = `/history?limit=${limit}`;
+		if (typeof archived !== 'undefined') {
+			url += `&archived=${archived}`;
+		}
+
 		url += reduce(types, (joined, type) => `${joined}&types=${type}`, '');
 		url += reduce(
 			directions,
