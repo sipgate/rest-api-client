@@ -197,6 +197,9 @@ export default class RestApiClient {
 		return this.http.get(url);
 	};
 
+	setHistoryEntryArchivedState = (entryId, archived) =>
+		this.http.put(`/history/${entryId}/archive`, { value: archived });
+
 	setHistoryItemReadState = (entryId, readState) =>
 		this.http.put(`/history/${entryId}/read`, { value: readState });
 
