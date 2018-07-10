@@ -203,6 +203,9 @@ export default class RestApiClient {
 	setHistoryItemReadState = (entryId, readState) =>
 		this.http.put(`/history/${entryId}/read`, { value: readState });
 
+	setHistoryItemNote = (entryId, note) =>
+		this.http.put(`/history/${entryId}/note`, { note });
+
 	deleteHistoryEntry = id => this.http.del(`/history/${id}`);
 
 	getEvents = () => this.http.get('/app/events');
