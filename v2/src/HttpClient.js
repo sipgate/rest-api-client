@@ -49,7 +49,7 @@ const isSuccessStatusCode = statusCode => statusCode >= 200 && statusCode < 300;
 
 const handleErrorResponses = response => {
 	if (!isSuccessStatusCode(response.status)) {
-		throwResponseError(response);
+		return throwResponseError(response);
 	}
 	return response;
 };
