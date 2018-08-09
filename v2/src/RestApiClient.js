@@ -116,6 +116,8 @@ export default class RestApiClient {
 
 	getUser = userId => this.http.get(`/users/${userId}`);
 
+	deleteUser = userId => this.http.del(`/users/${userId}`);
+
 	setDefaultDevice = (userId, deviceId) =>
 		this.http.put(`/users/${userId}/defaultdevice`, { deviceId });
 
