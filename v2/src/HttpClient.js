@@ -70,10 +70,10 @@ export default class HttpClient {
 		this.skipResponseErrorHandling = skipResponseErrorHandling;
 		this.getToken = () => {
 			if (getToken instanceof Function) {
-				return getToken();
+				return Promise.resolve(getToken());
 			}
 
-			return this.token;
+			return Promise.resolve(this.token);
 		};
 	}
 
@@ -93,10 +93,17 @@ export default class HttpClient {
 			return promiseCache.get(url);
 		}
 
-		const promise = fetch(url, {
-			method: 'get',
-			headers: defaultHeaders(authenticated ? this.getToken() : null),
-		})
+		const tokenPromise = authenticated
+			? this.getToken()
+			: Promise.resolve(null);
+
+		const promise = tokenPromise
+			.then(token =>
+				fetch(url, {
+					method: 'get',
+					headers: defaultHeaders(token),
+				})
+			)
 			.then(this.handleUnauthorized)
 			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
 			.then(this.onPromiseResolved)
@@ -117,10 +124,13 @@ export default class HttpClient {
 	};
 
 	del = path =>
-		fetch(this.apiUrl + path, {
-			method: 'delete',
-			headers: defaultHeaders(this.getToken()),
-		})
+		this.getToken()
+			.then(token =>
+				fetch(this.apiUrl + path, {
+					method: 'delete',
+					headers: defaultHeaders(token),
+				})
+			)
 			.then(this.handleUnauthorized)
 			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
 			.then(this.onPromiseResolved)
@@ -128,11 +138,14 @@ export default class HttpClient {
 			.then(parseJSON);
 
 	post = (path, data = {}) =>
-		fetch(this.apiUrl + path, {
-			method: 'post',
-			body: JSON.stringify(data),
-			headers: defaultHeaders(this.getToken()),
-		})
+		this.getToken()
+			.then(token =>
+				fetch(this.apiUrl + path, {
+					method: 'post',
+					body: JSON.stringify(data),
+					headers: defaultHeaders(token),
+				})
+			)
 			.then(this.handleUnauthorized)
 			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
 			.then(this.onPromiseResolved)
@@ -140,11 +153,14 @@ export default class HttpClient {
 			.then(parseJSON);
 
 	put = (path, data = {}) =>
-		fetch(this.apiUrl + path, {
-			method: 'put',
-			body: JSON.stringify(data),
-			headers: defaultHeaders(this.getToken()),
-		})
+		this.getToken()
+			.then(token =>
+				fetch(this.apiUrl + path, {
+					method: 'put',
+					body: JSON.stringify(data),
+					headers: defaultHeaders(token),
+				})
+			)
 			.then(this.handleUnauthorized)
 			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
 			.then(this.onPromiseResolved)
