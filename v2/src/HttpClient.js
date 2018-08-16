@@ -93,20 +93,22 @@ export default class HttpClient {
 			return promiseCache.get(url);
 		}
 
-		const tokenPromise = authenticated
-			? this.getToken()
-			: Promise.resolve(null);
+		//eslint-disable-next-line
+		const tokenPromise = () =>
+			authenticated ? this.getToken() : Promise.resolve(null);
 
-		const promise = tokenPromise
-			.then(token =>
+		const query = () =>
+			tokenPromise().then(token =>
 				fetch(url, {
 					method: 'get',
 					headers: defaultHeaders(token),
 				})
-			)
+			);
+
+		const promise = query()
 			.then(this.handleUnauthorized)
 			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
-			.then(this.onPromiseResolved)
+			.then(response => this.onPromiseResolved(response, query))
 			.then(response => {
 				promiseCache.bust(url);
 				return response;
@@ -123,47 +125,56 @@ export default class HttpClient {
 		return promise;
 	};
 
-	del = path =>
-		this.getToken()
-			.then(token =>
+	del = path => {
+		const query = () =>
+			this.getToken().then(token =>
 				fetch(this.apiUrl + path, {
 					method: 'delete',
 					headers: defaultHeaders(token),
 				})
-			)
+			);
+
+		return query()
 			.then(this.handleUnauthorized)
 			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
-			.then(this.onPromiseResolved)
+			.then(response => this.onPromiseResolved(response, query))
 			.then(extractBody)
 			.then(parseJSON);
+	};
 
-	post = (path, data = {}) =>
-		this.getToken()
-			.then(token =>
+	post = (path, data = {}) => {
+		const query = () =>
+			this.getToken().then(token =>
 				fetch(this.apiUrl + path, {
 					method: 'post',
 					body: JSON.stringify(data),
 					headers: defaultHeaders(token),
 				})
-			)
+			);
+
+		return query()
 			.then(this.handleUnauthorized)
 			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
-			.then(this.onPromiseResolved)
+			.then(response => this.onPromiseResolved(response, query))
 			.then(extractBody)
 			.then(parseJSON);
+	};
 
-	put = (path, data = {}) =>
-		this.getToken()
-			.then(token =>
+	put = (path, data = {}) => {
+		const query = () =>
+			this.getToken().then(token =>
 				fetch(this.apiUrl + path, {
 					method: 'put',
 					body: JSON.stringify(data),
 					headers: defaultHeaders(token),
 				})
-			)
+			);
+
+		return query()
 			.then(this.handleUnauthorized)
 			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
-			.then(this.onPromiseResolved)
+			.then(response => this.onPromiseResolved(response, query))
 			.then(extractBody)
 			.then(parseJSON);
+	};
 }
