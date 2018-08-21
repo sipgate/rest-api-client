@@ -18,6 +18,9 @@ export default class RestApiClient {
 
 	getCallRestrictions = userId => this.http.get(`/${userId}/callrestrictions`);
 
+	setCallRestrictions = (userId, restriction, enabled) =>
+		this.http.post(`/${userId}/callrestrictions/${restriction}`, { enabled });
+
 	getFaxlineNumbers = (userId, faxlineId) =>
 		this.http.get(`/${userId}/faxlines/${faxlineId}/numbers`);
 
