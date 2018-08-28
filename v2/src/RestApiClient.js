@@ -28,7 +28,7 @@ export default class RestApiClient {
 			);
 		}
 
-		this.http.get(url);
+		return this.http.get(url);
 	};
 
 	setCallRestrictions = (userId, restriction, enabled) =>
