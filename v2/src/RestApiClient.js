@@ -249,6 +249,8 @@ export default class RestApiClient {
 
 	getNumbers = userId => this.http.get(`/${userId}/numbers`);
 
+	getAllNumbers = () => this.http.get(`/numbers`);
+
 	setNumberRouting = (numberId, endpointId) =>
 		this.http.put(`/numbers/${numberId}`, { endpointId });
 
