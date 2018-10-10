@@ -16,7 +16,20 @@ export default class RestApiClient {
 
 	getFaxlines = userId => this.http.get(`/${userId}/faxlines`);
 
-	getCallRestrictions = userId => this.http.get(`/${userId}/callrestrictions`);
+	getCallRestrictions = (userIds = []) => {
+		let url = `/callrestrictions`;
+
+		if (userIds.length > 0) {
+			url += `?userIds=${userIds.shift()}`;
+			url += reduce(
+				userIds,
+				(joined, userId) => `${joined}&userIds=${userId}`,
+				''
+			);
+		}
+
+		return this.http.get(url);
+	};
 
 	setCallRestrictions = (userId, restriction, enabled) =>
 		this.http.post(`/${userId}/callrestrictions/${restriction}`, { enabled });
@@ -237,6 +250,8 @@ export default class RestApiClient {
 		this.http.put(`/devices/${deviceId}/tariffannouncement`, { enabled });
 
 	getNumbers = userId => this.http.get(`/${userId}/numbers`);
+
+	getAllNumbers = () => this.http.get(`/numbers`);
 
 	setNumberRouting = (numberId, endpointId) =>
 		this.http.put(`/numbers/${numberId}`, { endpointId });
