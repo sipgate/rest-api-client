@@ -217,6 +217,8 @@ export default class RestApiClient {
 		return this.http.get(url);
 	};
 
+	getHistoryEntry = entryId => this.http.get(`/history/${entryId}`);
+
 	setHistoryEntryArchivedState = (entryId, archived) =>
 		this.http.put(`/history/${entryId}/archive`, { value: archived });
 
@@ -579,4 +581,6 @@ export default class RestApiClient {
 
 	updateCrmBridgeToken = (id, crm, token, url) =>
 		this.http.put(`/crm-bridge/tokens/${id}`, { crm, token, url });
+
+	createContact = contact => this.http.post(`/contacts`, contact);
 }
