@@ -58,3 +58,14 @@ const client = createClient(
 ```
 
 You should use the third parameter `onPromiseResolved: ((Response) => Response | PromiseLike<Response>)` of `createClient` to implement your own error handling. The function you provide is executed as part of the promise handling chain.
+
+## Publish to NPM repository
+
+Just publish with yarn.
+
+```bash
+yarn publish
+```
+
+This also commits and pushes any changes done by that command.
+

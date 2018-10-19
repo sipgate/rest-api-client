@@ -7,10 +7,14 @@
     "lint": "eslint .",
     "lintfix": "eslint --fix .",
     "build": "npm run clean && babel src -d dist",
+    "check-master": "branch_name=$(git symbolic-ref -q HEAD); branch_name=${branch_name##refs/heads/}; branch_name=${branch_name:-HEAD}; test \"$branch_name\" = \"master\" || (echo Current branch is $branch_name instead of master && exit 1)",
+    "check-clean-working-tree": "git_status=$(git status -s); test -z \"$git_status\" || (echo Working tree is dirty && exit 1)",
     "clean": "rimraf dist/*",
     "format": "prettier --write \"src/**/*.js{,x}\"",
     "precommit": "lint-staged",
-    "prepublish": "npm run clean && npm run lint && npm run build"
+    "preversion": "echo ::: preversion && npm run check-master && npm run check-clean-working-tree",
+    "prepublish": "echo ::: prepublish && npm run check-master && npm run clean && npm run lint && npm run build",
+    "postversion": "echo ::: postversion && npm run check-master && git push"
   },
   "keywords": [
     "sipgate",
