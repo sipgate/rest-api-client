@@ -274,6 +274,9 @@ export default class RestApiClient {
 	initiateClickToDial = (caller, callee) =>
 		this.http.post('/sessions/calls', { caller, callee });
 
+	initiateClickToRecord = (deviceId, targetId) =>
+		this.http.post('/sessions/voicemail/recording', { deviceId, targetId });
+
 	getPhonelineBlockAnonymous = (userId, phonelineId) =>
 		this.http.get(`/${userId}/phonelines/${phonelineId}/blockanonymous`);
 
