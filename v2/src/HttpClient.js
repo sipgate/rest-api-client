@@ -62,6 +62,7 @@ export default class HttpClient {
 		onUnauthorized = () => {},
 		getToken,
 		skipResponseErrorHandling = false,
+		abortSignal,
 	} = {}) {
 		this.token = token;
 		this.apiUrl = apiUrl;
@@ -75,7 +76,19 @@ export default class HttpClient {
 
 			return Promise.resolve(this.token);
 		};
+		this.abortSignal = abortSignal;
 	}
+
+	cancellable = abortSignal =>
+		new HttpClient({
+			token: this.token,
+			apiUrl: this.apiUrl,
+			onPromiseResolved: this.onPromiseResolved,
+			skipResponseErrorHandling: this.skipResponseErrorHandling,
+			getToken: this.getToken,
+
+			abortSignal,
+		});
 
 	getUnauthenticated = path => this.get(path, false);
 
@@ -100,6 +113,7 @@ export default class HttpClient {
 		const query = () =>
 			tokenPromise().then(token =>
 				fetch(url, {
+					signal: this.abortSignal,
 					method: 'get',
 					headers: defaultHeaders(token),
 				})
@@ -129,6 +143,7 @@ export default class HttpClient {
 		const query = () =>
 			this.getToken().then(token =>
 				fetch(this.apiUrl + path, {
+					signal: this.abortSignal,
 					method: 'delete',
 					headers: defaultHeaders(token),
 				})
@@ -146,6 +161,7 @@ export default class HttpClient {
 		const query = () =>
 			this.getToken().then(token =>
 				fetch(this.apiUrl + path, {
+					signal: this.abortSignal,
 					method: 'post',
 					body: JSON.stringify(data),
 					headers: defaultHeaders(token),
@@ -164,6 +180,7 @@ export default class HttpClient {
 		const query = () =>
 			this.getToken().then(token =>
 				fetch(this.apiUrl + path, {
+					signal: this.abortSignal,
 					method: 'put',
 					body: JSON.stringify(data),
 					headers: defaultHeaders(token),

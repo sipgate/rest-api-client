@@ -22,5 +22,6 @@ export default (
 		del: path => http.del(path),
 		post: (path, data) => http.post(path, data),
 		put: (path, data) => http.put(path, data),
+		cancellable: abortSignal => http.cancellable(abortSignal),
 	};
 };

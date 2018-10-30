@@ -7,6 +7,9 @@ export default class RestApiClient {
 		this.http = http;
 	}
 
+	cancellable = abortSignal =>
+		new RestApiClient(this.http.cancellable(abortSignal));
+
 	getTranslations = locale =>
 		this.http.getUnauthenticated(`/translations/${locale}`);
 
