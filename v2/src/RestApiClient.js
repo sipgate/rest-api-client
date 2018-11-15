@@ -144,6 +144,9 @@ export default class RestApiClient {
 
 	getUsers = () => this.http.get('/users/');
 
+	setUserRole = (userId, isAdmin) =>
+		this.http.put(`/users/${userId}/role`, { admin: isAdmin });
+
 	activateGreeting = (userId, phonelineId, voicemailId, greetingId) =>
 		this.http.put(
 			`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}/greetings/${greetingId}`,
