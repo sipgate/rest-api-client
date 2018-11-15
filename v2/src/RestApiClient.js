@@ -280,6 +280,9 @@ export default class RestApiClient {
 	initiateClickToRecord = (deviceId, targetId) =>
 		this.http.post('/sessions/voicemail/recording', { deviceId, targetId });
 
+	initiateClickToRecordIvr = (deviceId, targetId, endpoint) =>
+        this.http.post('/sessions/ivr/recording', { deviceId, targetId , endpoint});
+    
 	initiateClickToPlay = (deviceId, datadId) =>
 		this.http.post('/sessions/voicemail/play', { deviceId, datadId });
 
