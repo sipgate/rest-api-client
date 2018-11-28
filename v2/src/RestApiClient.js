@@ -147,6 +147,9 @@ export default class RestApiClient {
 	setUserRole = (userId, isAdmin) =>
 		this.http.put(`/users/${userId}/role`, { admin: isAdmin });
 
+	setUserLocation = (userId, addressId) =>
+		this.http.put(`/users/${userId}/location`, { addressId });
+
 	activateGreeting = (userId, phonelineId, voicemailId, greetingId) =>
 		this.http.put(
 			`/${userId}/phonelines/${phonelineId}/voicemails/${voicemailId}/greetings/${greetingId}`,
@@ -284,8 +287,8 @@ export default class RestApiClient {
 		this.http.post('/sessions/voicemail/recording', { deviceId, targetId });
 
 	initiateClickToRecordIvr = (deviceId, targetId, endpoint) =>
-        this.http.post('/sessions/ivr/recording', { deviceId, targetId , endpoint});
-    
+		this.http.post('/sessions/ivr/recording', { deviceId, targetId, endpoint });
+
 	initiateClickToPlay = (deviceId, datadId) =>
 		this.http.post('/sessions/voicemail/play', { deviceId, datadId });
 
