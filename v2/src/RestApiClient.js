@@ -226,16 +226,24 @@ export default class RestApiClient {
 		return this.http.get(url);
 	};
 
+	updateHistoryEntries = entries => this.http.put(`/history`, entries);
+
 	getHistoryEntry = entryId => this.http.get(`/history/${entryId}`);
 
+	updateHistoryEntry = (entryId, { archived, read, note }) =>
+		this.http.put(`/history/${entryId}`, { archived, read, note });
+
+	/** @deprecated use updateHistoryEntry instead */
 	setHistoryEntryArchivedState = (entryId, archived) =>
-		this.http.put(`/history/${entryId}/archive`, { value: archived });
+		this.http.put(`/history/${entryId}`, { archived: !!archived });
 
+	/** @deprecated use updateHistoryEntry instead */
 	setHistoryItemReadState = (entryId, readState) =>
-		this.http.put(`/history/${entryId}/read`, { value: readState });
+		this.http.put(`/history/${entryId}`, { read: !!readState });
 
+	/** @deprecated use updateHistoryEntry instead */
 	setHistoryItemNote = (entryId, note) =>
-		this.http.put(`/history/${entryId}/note`, { note });
+		this.http.put(`/history/${entryId}`, { note: note.toString() });
 
 	deleteHistoryEntry = id => this.http.del(`/history/${id}`);
 
