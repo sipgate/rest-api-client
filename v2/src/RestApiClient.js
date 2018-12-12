@@ -246,6 +246,13 @@ export default class RestApiClient {
 		this.http.put(`/history/${entryId}`, { note: note.toString() });
 
 	deleteHistoryEntry = id => this.http.del(`/history/${id}`);
+	deleteHistoryEntries = ids =>
+		this.http.del(
+			`/history?${ids
+				.map(encodeURIComponent)
+				.map(encodedId => `id=${encodedId}`)
+				.join('&')}`
+		);
 
 	getEvents = () => this.http.get('/app/events');
 
