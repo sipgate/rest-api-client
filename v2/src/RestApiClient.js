@@ -205,21 +205,51 @@ export default class RestApiClient {
 
 	fetchLinks = () => this.http.get('/app/links');
 
-	getHistory = (connectionIds, types, directions, limit, archived) => {
-		let url = `/history?limit=${limit}`;
-		if (typeof archived !== 'undefined') {
-			url += `&archived=${archived}`;
+	getHistory = (...args) => {
+		let {
+			connectionIds = [],
+			types = [],
+			directions = [],
+			limit,
+			archived,
+			// eslint-disable-next-line prefer-const
+			offset,
+		} = args[0];
+
+		if (Array.isArray(args[0])) {
+			// eslint-disable-next-line no-console
+			console.warn(
+				'sipgate-rest-api-client-v2: Using getHistory() with positional arguments instead of an options object is deprecated behavior'
+			);
+			[connectionIds, types, directions, limit, archived] = args;
 		}
 
-		url += reduce(types, (joined, type) => `${joined}&types=${type}`, '');
+		let url = `/history`;
+		if (typeof limit !== 'undefined') {
+			url += `?limit=${encodeURIComponent(limit)}`;
+		}
+		if (typeof archived !== 'undefined') {
+			url += `&archived=${encodeURIComponent(archived)}`;
+		}
+		if (typeof offset !== 'undefined') {
+			url += `&offset=${encodeURIComponent(offset)}`;
+		}
+
+		url += reduce(
+			types,
+			(joined, type) => `${joined}&types=${encodeURIComponent(type)}`,
+			''
+		);
 		url += reduce(
 			directions,
-			(joined, direction) => `${joined}&directions=${direction}`,
+			(joined, direction) =>
+				`${joined}&directions=${encodeURIComponent(direction)}`,
 			''
 		);
 		url += reduce(
 			connectionIds,
-			(joined, connectionId) => `${joined}&connectionIds=${connectionId}`,
+			(joined, connectionId) =>
+				`${joined}&connectionIds=${encodeURIComponent(connectionId)}`,
 			''
 		);
 
