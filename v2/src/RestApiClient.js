@@ -260,8 +260,8 @@ export default class RestApiClient {
 
 	getHistoryEntry = entryId => this.http.get(`/history/${entryId}`);
 
-	updateHistoryEntry = (entryId, { archived, read, note }) =>
-		this.http.put(`/history/${entryId}`, { archived, read, note });
+	updateHistoryEntry = (entryId, { archived, read, note, starred }) =>
+		this.http.put(`/history/${entryId}`, { archived, read, note, starred });
 
 	/** @deprecated use updateHistoryEntry instead */
 	setHistoryEntryArchivedState = (entryId, archived) =>
