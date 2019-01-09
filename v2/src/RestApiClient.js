@@ -393,8 +393,13 @@ export default class RestApiClient {
 	resendFax = (faxlineId, faxId) =>
 		this.http.post('/sessions/fax/resend', { faxlineId, faxId });
 
-	sendSms = (smsId, recipient, message) =>
-		this.http.post('/sessions/sms', { smsId, recipient, message });
+	sendSms = (smsId, recipient, message, sendAt) => {
+		let options = { smsId, recipient, message };
+		if (typeof sendAt !== 'undefined') {
+			options = { ...options, sendAt };
+		}
+		return this.http.post('/sessions/sms', options);
+	};
 
 	getIdentityVerification = () => this.http.get('/identityVerification');
 
