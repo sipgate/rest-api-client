@@ -589,8 +589,11 @@ export default class RestApiClient {
 
 	getIncomingBlacklistEntries = () => this.http.get('/blacklist/incoming');
 
-	createIncomingBlacklistEntry = phoneNumber =>
-		this.http.post('/blacklist/incoming', { phoneNumber });
+	createIncomingBlacklistEntry = (phoneNumber, isBlock) =>
+		this.http.post('/blacklist/incoming', {
+			phoneNumber,
+			isBlock: typeof isBlock === 'undefined' ? false : isBlock
+		});
 
 	deleteIncomingBlacklistEntry = phoneNumber =>
 		this.http.del(`/blacklist/incoming/${phoneNumber}`);
