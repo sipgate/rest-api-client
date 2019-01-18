@@ -137,8 +137,14 @@ export default class RestApiClient {
 		);
 	};
 
-	getPhonelineVoicemails = (userId, phonelineId) =>
+	/** @deprecated use getVoicemails instead */
+	getPhonelineVoicemails = (userId, phonelineId) => {
+		console.warn(
+			'Used deprecated method getPhonelineVoicemails, use getVoicemails instead'
+		);
+
 		this.http.get(`/${userId}/phonelines/${phonelineId}/voicemails`);
+	};
 
 	getPhonelineVoicemailGreetings = (userId, phonelineId, voicemailId) =>
 		this.http.get(
@@ -594,7 +600,14 @@ export default class RestApiClient {
 	deleteGroupDevice = (groupId, deviceId) =>
 		this.http.del(`/groups/${groupId}/devices/${deviceId}`);
 
-	getGroupVoicemail = groupId => this.http.get(`/groups/${groupId}/voicemail`);
+	/** @deprecated use getVoicemails instead */
+	getGroupVoicemail = groupId => {
+		console.warn(
+			'Used deprecated method getGroupVoicemail, use getVoicemails instead'
+		);
+
+		return this.http.get(`/groups/${groupId}/voicemail`);
+	};
 
 	getGroupFaxline = userId => {
 		let url = '/groupfaxlines';
@@ -689,4 +702,8 @@ export default class RestApiClient {
 		this.http.put(`/crm-bridge/tokens/${id}`, { crm, token, url });
 
 	createContact = contact => this.http.post(`/contacts`, contact);
+
+	getVoicemails = () => this.http.get('/voicemails');
+
+	getVoicemail = voicemailId => this.http.get(`/voicemails/${voicemailId}`);
 }
