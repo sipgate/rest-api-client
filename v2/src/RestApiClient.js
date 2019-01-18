@@ -88,31 +88,54 @@ export default class RestApiClient {
 	getPhonelineNumbers = (userId, phonelineId) =>
 		this.http.get(`/${userId}/phonelines/${phonelineId}/numbers`);
 
-	getPhonelineParallelforwardings = (userId, phonelineId) =>
-		this.http.get(`/${userId}/phonelines/${phonelineId}/parallelforwardings`);
+	/** @deprecated use getDevices instead */
+	getPhonelineParallelforwardings = (userId, phonelineId) => {
+		console.warn(
+			'Used deprecated method getPhonelineParallelforwardings, use getDevices instead'
+		);
 
+		return this.http.get(
+			`/${userId}/phonelines/${phonelineId}/parallelforwardings`
+		);
+	};
+
+	/** @deprecated use createDeviceExternal instead*/
 	createPhonelineParallelforwarding = (
 		userId,
 		phonelineId,
 		alias,
 		destination
-	) =>
-		this.http.post(`/${userId}/phonelines/${phonelineId}/parallelforwardings`, {
-			alias,
-			destination,
-			active: true,
-		});
+	) => {
+		console.warn(
+			'Used deprecated method createPhonelineParallelforwarding, use createDeviceExternal instead'
+		);
 
+		return this.http.post(
+			`/${userId}/phonelines/${phonelineId}/parallelforwardings`,
+			{
+				alias,
+				destination,
+				active: true,
+			}
+		);
+	};
+
+	/** @deprecated use setDevice / setDeviceExternal methods */
 	setPhonelineParallelforwarding = (
 		userId,
 		phonelineId,
 		parallelforwardingId,
 		parallelforwarding
-	) =>
-		this.http.put(
+	) => {
+		console.warn(
+			'Used deprecated method setPhonelineParallelforwarding, use setDevice / setDeviceExternal methods'
+		);
+
+		return this.http.put(
 			`/${userId}/phonelines/${phonelineId}/parallelforwardings/${parallelforwardingId}`,
 			parallelforwarding
 		);
+	};
 
 	getPhonelineVoicemails = (userId, phonelineId) =>
 		this.http.get(`/${userId}/phonelines/${phonelineId}/voicemails`);
@@ -264,16 +287,28 @@ export default class RestApiClient {
 		this.http.put(`/history/${entryId}`, { archived, read, note, starred });
 
 	/** @deprecated use updateHistoryEntry instead */
-	setHistoryEntryArchivedState = (entryId, archived) =>
-		this.http.put(`/history/${entryId}`, { archived: !!archived });
+	setHistoryEntryArchivedState = (entryId, archived) => {
+		console.warn(
+			'Used deprecated method setHistoryEntryArchivedState, use updateHistoryEntry instead'
+		);
+		return this.http.put(`/history/${entryId}`, { archived: !!archived });
+	};
 
 	/** @deprecated use updateHistoryEntry instead */
-	setHistoryItemReadState = (entryId, readState) =>
-		this.http.put(`/history/${entryId}`, { read: !!readState });
+	setHistoryItemReadState = (entryId, readState) => {
+		console.warn(
+			'Used deprecated method setHistoryItemReadState, use updateHistoryEntry instead'
+		);
+		return this.http.put(`/history/${entryId}`, { read: !!readState });
+	};
 
 	/** @deprecated use updateHistoryEntry instead */
-	setHistoryItemNote = (entryId, note) =>
-		this.http.put(`/history/${entryId}`, { note: note.toString() });
+	setHistoryItemNote = (entryId, note) => {
+		console.warn(
+			'Used deprecated method setHistoryItemNote, use updateHistoryEntry instead'
+		);
+		return this.http.put(`/history/${entryId}`, { note: note.toString() });
+	};
 
 	deleteHistoryEntry = id => this.http.del(`/history/${id}`);
 	deleteHistoryEntries = ids =>
@@ -592,7 +627,7 @@ export default class RestApiClient {
 	createIncomingBlacklistEntry = (phoneNumber, isBlock) =>
 		this.http.post('/blacklist/incoming', {
 			phoneNumber,
-			isBlock: typeof isBlock === 'undefined' ? false : isBlock
+			isBlock: typeof isBlock === 'undefined' ? false : isBlock,
 		});
 
 	deleteIncomingBlacklistEntry = phoneNumber =>
