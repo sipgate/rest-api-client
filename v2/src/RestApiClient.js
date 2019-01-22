@@ -63,6 +63,9 @@ export default class RestApiClient {
 
 	getPhonelines = userId => this.http.get(`/${userId}/phonelines`);
 
+	getPhoneline = (userId, phonelineId) =>
+		this.http.get(`/${userId}/phonelines/${phonelineId}`);
+
 	createPhoneline = userId => this.http.post(`/${userId}/phonelines`);
 
 	deletePhoneline = (userId, phonelineId) =>
@@ -589,6 +592,8 @@ export default class RestApiClient {
 		}
 		return this.http.get(url);
 	};
+
+	getGroup = groupId => this.http.get(`/groups/${groupId}`);
 
 	getGroupNumbers = groupId => this.http.get(`/groups/${groupId}/numbers`);
 
