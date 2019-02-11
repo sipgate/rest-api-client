@@ -19,6 +19,7 @@ export default (
 	return {
 		getUnauthenticated: path => http.getUnauthenticated(path),
 		get: path => http.get(path),
+		getFile: path => http.getFile(path),
 		del: path => http.del(path),
 		post: (path, data) => http.post(path, data),
 		put: (path, data) => http.put(path, data),

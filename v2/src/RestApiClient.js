@@ -288,6 +288,8 @@ export default class RestApiClient {
 		return this.http.get(url);
 	};
 
+	exportHistory = limit => this.http.getFile(`/history/export?limit=${limit}`);
+
 	updateHistoryEntries = entries => this.http.put(`/history`, entries);
 
 	getHistoryEntry = entryId => this.http.get(`/history/${entryId}`);

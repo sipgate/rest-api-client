@@ -19,6 +19,15 @@ const defaultHeaders = token => {
 };
 
 const extractBody = res => res.text();
+const extractFile = res =>
+	new Promise((resolve, reject) =>
+		res
+			.text()
+			.then(text =>
+				resolve(new Blob([text], { type: res.headers.get('content-type') }))
+			)
+			.catch(reject)
+	);
 
 const parseJSON = text => {
 	try {
@@ -129,6 +138,45 @@ export default class HttpClient {
 			})
 			.then(extractBody)
 			.then(parseJSON)
+			.catch(reason => {
+				promiseCache.bust(url);
+				return Promise.reject(reason);
+			});
+
+		promiseCache.set(url, promise);
+
+		return promise;
+	};
+
+	getFile = (path, authenticated = true) => {
+		const url = this.apiUrl + path;
+
+		if (promiseCache.get(url)) {
+			return promiseCache.get(url);
+		}
+
+		//eslint-disable-next-line
+		const tokenPromise = () =>
+			authenticated ? this.getToken() : Promise.resolve(null);
+
+		const query = () =>
+			tokenPromise().then(token =>
+				fetch(url, {
+					signal: this.abortSignal,
+					method: 'get',
+					headers: defaultHeaders(token),
+				})
+			);
+
+		const promise = query()
+			.then(this.handleUnauthorized)
+			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
+			.then(response => this.onPromiseResolved(response, query))
+			.then(response => {
+				promiseCache.bust(url);
+				return response;
+			})
+			.then(extractFile)
 			.catch(reason => {
 				promiseCache.bust(url);
 				return Promise.reject(reason);
