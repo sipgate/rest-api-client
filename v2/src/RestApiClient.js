@@ -246,6 +246,8 @@ export default class RestApiClient {
 			archived,
 			// eslint-disable-next-line prefer-const
 			offset,
+			// eslint-disable-next-line prefer-const
+			starred = [],
 		} = args[0];
 
 		if (Array.isArray(args[0])) {
@@ -282,6 +284,12 @@ export default class RestApiClient {
 			connectionIds,
 			(joined, connectionId) =>
 				`${joined}&connectionIds=${encodeURIComponent(connectionId)}`,
+			''
+		);
+		url += reduce(
+			starred,
+			(joined, starredEntity) =>
+				`${joined}&starred=${encodeURIComponent(starredEntity)}`,
 			''
 		);
 
