@@ -248,6 +248,10 @@ export default class RestApiClient {
 			offset,
 			// eslint-disable-next-line prefer-const
 			starred = [],
+			// eslint-disable-next-line prefer-const
+			from,
+			// eslint-disable-next-line prefer-const
+			to,
 		} = args[0];
 
 		if (Array.isArray(args[0])) {
@@ -267,6 +271,12 @@ export default class RestApiClient {
 		}
 		if (typeof offset !== 'undefined') {
 			url += `&offset=${encodeURIComponent(offset)}`;
+		}
+		if (typeof from !== 'undefined') {
+			url += `&from=${encodeURIComponent(from)}`;
+		}
+		if (typeof to !== 'undefined') {
+			url += `&to=${encodeURIComponent(to)}`;
 		}
 
 		url += reduce(
