@@ -111,7 +111,7 @@ export default class HttpClient {
 	get = (path, authenticated = true) => {
 		const url = this.apiUrl + path;
 
-		if (promiseCache.get(url)) {
+		if (!this.abortSignal && promiseCache.get(url)) {
 			return promiseCache.get(url);
 		}
 
@@ -133,17 +133,23 @@ export default class HttpClient {
 			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
 			.then(response => this.onPromiseResolved(response, query))
 			.then(response => {
-				promiseCache.bust(url);
+				if (!this.abortSignal) {
+					promiseCache.bust(url);
+				}
 				return response;
 			})
 			.then(extractBody)
 			.then(parseJSON)
 			.catch(reason => {
-				promiseCache.bust(url);
+				if (!this.abortSignal) {
+					promiseCache.bust(url);
+				}
 				return Promise.reject(reason);
 			});
 
-		promiseCache.set(url, promise);
+		if (!this.abortSignal) {
+			promiseCache.set(url, promise);
+		}
 
 		return promise;
 	};
@@ -151,7 +157,7 @@ export default class HttpClient {
 	getFile = (path, authenticated = true) => {
 		const url = this.apiUrl + path;
 
-		if (promiseCache.get(url)) {
+		if (!this.abortSignal && promiseCache.get(url)) {
 			return promiseCache.get(url);
 		}
 
@@ -173,16 +179,22 @@ export default class HttpClient {
 			.then(this.skipResponseErrorHandling ? identity : handleErrorResponses)
 			.then(response => this.onPromiseResolved(response, query))
 			.then(response => {
-				promiseCache.bust(url);
+				if (!this.abortSignal) {
+					promiseCache.bust(url);
+				}
 				return response;
 			})
 			.then(extractFile)
 			.catch(reason => {
-				promiseCache.bust(url);
+				if (!this.abortSignal) {
+					promiseCache.bust(url);
+				}
 				return Promise.reject(reason);
 			});
 
-		promiseCache.set(url, promise);
+		if (!this.abortSignal) {
+			promiseCache.set(url, promise);
+		}
 
 		return promise;
 	};
