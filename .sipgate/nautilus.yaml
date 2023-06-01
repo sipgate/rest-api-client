@@ -1,0 +1,19 @@
+apiVersion: nautilus.sipgate.cloud/v1alpha1
+kind: Service
+metadata:
+  creationTimestamp: "2023-06-01T07:12:06.095867715Z"
+  name: rest-api-client
+  namespace: default
+  resourceVersion: "1"
+  uid: 76a8623c-b13f-40c4-bdb6-fa59f76ef509
+spec:
+  backup: "false"
+  containerized: "false"
+  localPersistence: "false"
+  on_call_schedule: bestEffort
+  pciDssRelevant: "false"
+  ports: null
+  repositoryType: library
+  singleton: "false"
+  tlsProvider: none
+  virtualized: "false"
